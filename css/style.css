@@ -4,14 +4,6 @@ html, body {
   background: #333333;
 }
 
-.video-container{
-  display: none;
-  width:640px;
-  height:390px;
-  overflow:hidden;
-  position:relative;
-  margin: auto;
-}
 
 .video-container .player{
   position: absolute;

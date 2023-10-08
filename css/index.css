@@ -507,12 +507,14 @@ div > #copy-last-selected:active {
 	object-fit: cover;
 	/*display: none;*/
 }
-.video-container .overlay {
+.video-container {
 	top: 0;
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	background: radial-gradient(closest-side, transparent 60%, #141E30);
+	left: 15%;
+	
 }
 
 #youtube-player {
