@@ -516,8 +516,6 @@ div > #copy-last-selected:active {
 }
 
 #youtube-player {
-	top: -50px;
 	position: absolute;
-	left: 35%;
 	clip-path: ellipse(50% 50% at 50% 50%);
 }
