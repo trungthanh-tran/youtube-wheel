@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <title>Spin Coin</title>
     <script src="js/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
@@ -480,42 +480,36 @@
       </div>
     </div>
 
-    <div class="container content">
-      <div class="row">
-        <div class="col-md-2 col-sm-12">
-          <div id="item-image">
-            <div class="arc"></div>
-            <img src="images/items/026.png" alt="" />
-            <div id="canvas2"></div>
+    <div class="content">
+      <div id="filter-shadow">
+        <div class="video-container" style="display: none">
+          <div class="video-foreground">
+            <div id="youtube-player"></div>
           </div>
+      </div>
+      </div>
+      <div id="canvas"></div>
 
-          <div id="custom-list" class="dialog">
-            <div class="header">Свой список</div>
-            <textarea rows="15" cols="50"></textarea>
-            <hr />
-            <button id="start-me">Применить</button>
-          </div>
-          <div id="canvas"></div>
-        </div>
-        <div class="col-md-10 col-sm-12">
-          <div id="filter-shadow">
-            <div class="video-container" style="display: none">
-              <div class="video-foreground">
-                <div id="youtube-player"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div id="item-image">
+          <div class="arc"></div>
+          <img src="images/items/026.png" alt="" />
+          <div id="canvas2"></div>
+      </div>
+
+      <div id="custom-list" class="dialog">
+          <div class="header">Свой список</div>
+          <textarea rows="15" cols="50"></textarea>
+          <hr />
+          <button>Применить</button>
       </div>
 
       <div id="dialog-edit" class="dialog">
-        <div class="header">Header</div>
-        <div class="presets"></div>
-        <div class="options"></div>
-        <hr />
-        <button class="apply">Применить</button>
+          <div class="header">Header</div>
+          <div class="presets"></div>
+          <div class="options"></div>
+          <hr />
+          <button class="apply">Применить</button>
       </div>
-    </div>
 
     <div id="wheel-data-sets">
       <button id="btn-edit" title="Редактировать список" class="hide"></button>
