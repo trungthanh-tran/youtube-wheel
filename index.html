@@ -1,301 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Spin Coin</title>
     <script src="js/p5.min.js"></script>
-    <script src="js/sketch.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-</head>
-
-<body>
+  <body onload="loadImage()">
     <div class="image-grid-view">
-        <div class="hero-background">
-            <ul class="image-grid">
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/78.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/124.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/61.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/122.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/144.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/16.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/2.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/75.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/140.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/151.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/13.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/82.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/146.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/8.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/149.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/15.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/63.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/12.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/77.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/27.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/17.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/83.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/23.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/15.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/130.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/179.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/28.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/6.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/18.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/17.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/8.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/12.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/6.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/172.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/159.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/173.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/25.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/67.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/21.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/2.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/175.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/153.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/134.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/149.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/29.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/18.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/158.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/146.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/24.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/154.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/66.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/164.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/6.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/73.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/26.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/19.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/132.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/77.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/21.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/87.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/13.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/71.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/157.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/70.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/62.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/30.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/8.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/172.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/161.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/28.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/169.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/14.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/16.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/74.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/64.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/177.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/24.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/121.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/22.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/26.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/7.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/7.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/26.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/75.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/157.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/23.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/130.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/144.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/160.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/89.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/2.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/hat/17.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/165.png"
-                        alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/24.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/mates/17.png" alt="">
-                </li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/gun/77.png" alt=""></li>
-                <li class="image-grid-item-container"><img class="image-grid-item" src="images/accessory/164.png"
-                        alt=""></li>
-            </ul>
-        </div>
-        <div class="hero-background-overlay"></div>
-        <!--        <div class="hero-background-stripe"></div>-->
+      <div class="hero-background">
+        <ul class="image-grid">
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/78.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/124.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/61.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/122.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/144.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/16.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/2.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/75.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/140.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/151.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/13.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/82.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/146.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/8.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/149.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/15.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/63.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/12.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/77.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/27.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/17.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/83.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/23.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/15.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/130.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/179.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/28.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/6.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/18.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/17.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/8.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/12.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/6.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/172.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/159.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/173.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/25.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/67.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/21.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/2.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/175.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/153.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/134.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/149.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/29.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/18.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/158.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/146.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/24.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/154.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/66.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/164.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/6.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/73.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/26.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/19.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/132.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/77.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/21.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/87.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/13.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/71.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/157.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/70.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/62.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/30.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/8.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/172.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/161.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/28.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/169.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/14.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/16.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/74.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/64.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/177.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/24.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/121.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/22.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/26.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/7.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/7.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/26.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/75.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/157.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/23.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/130.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/144.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/160.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/89.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/2.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/hat/17.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/165.png"
+              alt=""
+            />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/24.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/mates/17.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img class="image-grid-item" src="images/gun/77.png" alt="" />
+          </li>
+          <li class="image-grid-item-container">
+            <img
+              class="image-grid-item"
+              src="images/accessory/164.png"
+              alt=""
+            />
+          </li>
+        </ul>
+      </div>
+      <div class="hero-background-overlay"></div>
+      <!--        <div class="hero-background-stripe"></div>-->
     </div>
 
-    <div class="content">
-        <div class="row">
-            <div class="col-md-2 col-sm-12">
-                <div id="item-image">
-                    <div class="arc"></div>
-                    <img src="images/items/026.png" alt="" />
-                    <div id="canvas2"></div>
-                </div>
-
-                <div id="custom-list" class="dialog">
-                    <div class="header">Свой список</div>
-                    <textarea rows="15" cols="50"></textarea>
-                    <hr />
-                    <button>Применить</button>
-                </div>
-                <div id="canvas"></div>
+    <div class="l-wrapper" id="leaderboard" style="opacity:0">
+      <div class="l-grid">
+        <div class="l-grid__item">
+          <div class="c-card">
+            <div class="c-card__header">
+              <h3>Leaderboard</h3>
             </div>
-            <div class="col-md-10 col-sm-12">
-                <div id="filter-shadow">
-                    <div class="video-container" style="display: none;">
-                        <div class="video-foreground">
-                            <div id="youtube-player"></div>
-                        </div>
+            <div class="c-card__body">
+              <ul class="c-list" id="leaderboardList">
+                <li class="c-list__item">
+                  <div class="c-list__grid">
+                    <div class="u-text--left u-text--small u-text--medium">
+                      Rank
                     </div>
-                </div>
+                    <div class="u-text--left u-text--small u-text--medium">
+                      Address
+                    </div>
+                    <div class="u-text--right u-text--small u-text--medium">
+                      # seconds
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div id="dialog-edit" class="dialog">
-            <div class="header">Header</div>
-            <div class="presets"></div>
-            <div class="options"></div>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
+          <div id="item-image">
+            <div class="arc"></div>
+            <img src="images/items/026.png" alt="" />
+            <div id="canvas2"></div>
+          </div>
+
+          <div id="custom-list" class="dialog">
+            <div class="header">Свой список</div>
+            <textarea rows="15" cols="50"></textarea>
             <hr />
-            <button class="apply">Применить</button>
+            <button>Применить</button>
+          </div>
+          <div id="canvas"></div>
         </div>
+        <div class="col-md-10 col-sm-12">
+          <div id="filter-shadow">
+            <div class="video-container overlay" style="display: none">
+              <div class="video-foreground">
+                <div id="youtube-player"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="dialog-edit" class="dialog">
+        <div class="header">Header</div>
+        <div class="presets"></div>
+        <div class="options"></div>
+        <hr />
+        <button class="apply">Применить</button>
+      </div>
     </div>
 
     <div id="wheel-data-sets">
-        <button id="btn-edit" title="Редактировать список" class="hide"></button>
+      <button id="btn-edit" title="Редактировать список" class="hide"></button>
 
-        <div>
-            <input type="radio" id="items" name="list" value="items" autocomplete="off" data-show-edit-dialog="1" />
-            <label for="items">Предметы</label><!--
+      <div>
+        <input
+          type="radio"
+          id="items"
+          name="list"
+          value="items"
+          autocomplete="off"
+          data-show-edit-dialog="1"
+        />
+        <label for="items">Предметы</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="imp" name="list" value="implants" autocomplete="off" data-show-edit-dialog="1" />
-            <label for="imp">Импланты</label><!--
+      <div>
+        <input
+          type="radio"
+          id="imp"
+          name="list"
+          value="implants"
+          autocomplete="off"
+          data-show-edit-dialog="1"
+        />
+        <label for="imp">Импланты</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="meet" name="list" value="meetings" autocomplete="off" data-show-edit-dialog="1" />
-            <label for="meet">Случайные встречи</label><!--
+      <div>
+        <input
+          type="radio"
+          id="meet"
+          name="list"
+          value="meetings"
+          autocomplete="off"
+          data-show-edit-dialog="1"
+        />
+        <label for="meet">Случайные встречи</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="dewey" name="list" value="injuries" autocomplete="off" data-show-edit-dialog="1" />
-            <label for="dewey">Ранения</label><!--
+      <div>
+        <input
+          type="radio"
+          id="dewey"
+          name="list"
+          value="injuries"
+          autocomplete="off"
+          data-show-edit-dialog="1"
+        />
+        <label for="dewey">Ранения</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="louie" name="list" value="coin" autocomplete="off" checked />
-            <label for="louie">Монетка</label><!--
+      <div>
+        <input
+          type="radio"
+          id="louie"
+          name="list"
+          value="coin"
+          autocomplete="off"
+          checked
+        />
+        <label for="louie">Монетка</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="webby" name="list" value="streamers" autocomplete="off" />
-            <label for="webby">Участники</label><!--
+      <div>
+        <input
+          type="radio"
+          id="webby"
+          name="list"
+          value="streamers"
+          autocomplete="off"
+        />
+        <label for="webby">Участники</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="pvp" name="list" value="pvp" autocomplete="off" />
-            <label for="pvp">PVP</label><!--
+      <div>
+        <input
+          type="radio"
+          id="pvp"
+          name="list"
+          value="pvp"
+          autocomplete="off"
+        />
+        <label for="pvp">PVP</label
+        ><!--
             no spaces
         -->
-        </div>
+      </div>
 
-        <div>
-            <input type="radio" id="scrooge" name="list" value="custom" autocomplete="off" />
-            <label for="scrooge">Свой список</label>
-        </div>
+      <div>
+        <input
+          type="radio"
+          id="scrooge"
+          name="list"
+          value="custom"
+          autocomplete="off"
+        />
+        <label for="scrooge">Свой список</label>
+      </div>
 
+      <div class="break"></div>
 
-        <div class="break"></div>
+      <div>
+        <input
+          id="volume-control"
+          type="range"
+          step="0.05"
+          value="0.5"
+          max="1"
+          min="0"
+          title="Громкость видео"
+        />
+        <input id="with-dmca" type="checkbox" /><label for="with-dmca"
+          >Воспроизводить DMCA-треки</label
+        >
+      </div>
 
-        <div>
-            <input id="volume-control" type="range" step="0.05" value="0.5" max="1" min="0" title="Громкость видео" />
-            <input id="with-dmca" type="checkbox" /><label for="with-dmca">Воспроизводить DMCA-треки</label>
-        </div>
+      <!--        <a id="rules" href="rules">Таблица WhoPG</a>-->
 
-        <!--        <a id="rules" href="rules">Таблица WhoPG</a>-->
-
-        <div>
-            <!--a id="video-suggest"
+      <div>
+        <!--a id="video-suggest"
                title="Предложить видео"
                href="suggest-video"></a-->
 
-            <a id="sources" title="Посмотреть исходный код колеса" href="https://github.com/shtrih/whopg2-wheel"
-                target="_blank"></a>
+        <a
+          id="sources"
+          title="Посмотреть исходный код колеса"
+          href="https://github.com/shtrih/whopg2-wheel"
+          target="_blank"
+        ></a>
 
-            <a id="donation" title="Колесо реализовано бесплатно, но поддержка приветствуется"
-                href="https://www.donationalerts.com/r/vampirex" target="_blank"></a>
-        </div>
+        <a
+          id="donation"
+          title="Колесо реализовано бесплатно, но поддержка приветствуется"
+          href="https://www.donationalerts.com/r/vampirex"
+          target="_blank"
+        ></a>
+      </div>
 
-        <div>
-            <span id="last-selected-text"></span>
-            <img id="copy-last-selected" title="Скопировать последний выпавший пункт"
-                src="images/page_white_paste_table.png" />
-        </div>
+      <div>
+        <span id="last-selected-text"></span>
+        <img
+          id="copy-last-selected"
+          title="Скопировать последний выпавший пункт"
+          src="images/page_white_paste_table.png"
+        />
+      </div>
     </div>
 
+    <script src="js/leaderboard.js"></script>
     <script src="js/p5.min.js"></script>
     <script src="js/util.js"></script>
     <script src="js/FPSCounter.js"></script>
@@ -309,6 +697,37 @@
     <script src="videos-protected.js"></script>
     <script src="videos-free.js"></script>
     <script src="index.js"></script>
-</body>
 
+    <canvas
+      id="countdown-canvas"
+      style="
+        position: absolute !important;
+        z-index: 99;
+        top: 0;
+        right: 0;
+        background-color: transparent;
+        width: 10vw;
+      "
+    ></canvas>
+    <script src="js/sketch.js"></script>
+    <script>
+      function startCirculation() {
+        var canv = document.getElementById("countdown-canvas");
+        const circulation = new Circulation(canv, 30000);
+        circulation.startInterval(100);
+      }
+
+      function loadImage() {
+        var leaderClass = new LeaderBoard();
+        var leaderboard = document.getElementById('leaderboard');
+        
+        leaderboard.style.opacity=1;
+        leaderboard.style.zIndex=99;
+        if (leaderboard.classList.contains("disappear")){
+            element.classList.add('disappear');
+         }
+         leaderClass.renderLeaderShip();
+        }
+    </script>
+  </body>
 </html>
