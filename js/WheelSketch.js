@@ -13,6 +13,7 @@ function WheelSketch(_p5) {
         },
         fpsCounter = new FPSCounter(700, 450, 100, 50, _p5)
         ;
+    let button;
     let data = [],
         videosList = [
             'videos/14278244937910.webm',
@@ -50,7 +51,7 @@ function WheelSketch(_p5) {
         _p5.triggerSelectItem();
     };
 
-    _p5.onAfterSetup = function () { };
+    _p5.onAfterSetup = function () {};
     _p5.onNextRound =  function () {
         var canv = document.getElementById('countdown-canvas');
         var leaderboard = document.getElementById('leaderboard');
@@ -110,9 +111,18 @@ function WheelSketch(_p5) {
                     ;
 
                 _p5.onStartWheel(durationSec);
-
-                videos_list = ['EWnmX0AcJkc'];
                 counter_video = 0;
+                const videos_list = ['k85mRPqvMbE'];
+                videos_list.forEach((video_item) => {
+                    setTimeout(() => {
+                      if (player) {
+                          player.loadVideoById(video_item);
+                          player.playVideo();
+                        }
+                    }, counter_video * 30000);
+                    counter_video = counter_video + 1;
+                  });
+
                 var canv = document.getElementById('countdown-canvas');
                 const circulation = new Circulation(canv, 30000);
                 circulation.startInterval(100);
@@ -156,6 +166,80 @@ function WheelSketch(_p5) {
 
         _p5.onAfterSetup();
     };
+
+    _p5.startOver = () => {
+        counterMax = data.length * height_str;
+
+        const canvas = _p5.createCanvas(800, 500);
+        canvas.parent('canvas');
+
+        // _p5.textSize(18);
+        _p5.textSize(23);
+        _p5.textFont(fontRegular);
+        _p5.textLeading(24);
+        // _p5.textLeading(18);
+        _p5.fill(200);
+
+        circleTop = (_p5.height - diameter) / 2 + _p5.textAscent() / 3;
+        circleCenterY = circleTop + radius;
+        counter = counterInitial;
+
+        const background = document.querySelector('.image-grid'),
+            videoContainer = document.getElementById('filter-shadow')           ;
+
+            if (!isCounterAnimation) {
+                const durationSec = 30 || 22,
+                    totalRows = getTotalRowsForDurationAndSpeed(durationSec)
+                    ;
+
+                _p5.onStartWheel(durationSec);
+
+                videos_list = ['k85mRPqvMbE'];
+                counter_video = 0;
+                var canv = document.getElementById('countdown-canvas');
+                const circulation = new Circulation(canv, 30000);
+                circulation.startInterval(100);
+                const vp = document.querySelector('.video-container');
+                vp.style.display = 'block';
+
+                array_shuffle(data);
+                _p5.triggerSelectItem();
+
+                videoContainer.style.animation = `play-video ${durationSec}s`;
+                // videoContainer.classList = 'play';
+                button.elt.style.visibility = 'hidden';
+
+                // background.style.display = 'none';
+                background.classList = 'image-grid animation-paused';
+
+                animate(
+                    tickCounter,
+                    counter,
+                    counter + height_str * totalRows,
+                    durationSec * 1000,
+                    () => {
+                        // background.style.display = null;
+                        button.elt.style.visibility = null;
+                        videoContainer.style.animation = null;
+                        // videoContainer.classList = '';
+                        background.classList = 'image-grid';
+                        animCounterStop();
+                        _p5.onNextRound();
+                        alignToRow(() => {
+                            _p5.onStopWheel();
+                        });
+
+                    },
+                    easeInOutSine
+                );
+            }
+
+            return false;
+
+        _p5.onAfterSetup();
+
+
+    }
 
 
     function getTotalRowsForDurationAndSpeed(videoDurationSec = 22, speedItemsPerSec = 3) {

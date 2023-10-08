@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body onload="loadImage()">
+  <body>
     <div class="image-grid-view">
       <div class="hero-background">
         <ul class="image-grid">
@@ -451,7 +451,7 @@
       <!--        <div class="hero-background-stripe"></div>-->
     </div>
 
-    <div class="l-wrapper" id="leaderboard" style="opacity:0">
+    <div class="l-wrapper" id="leaderboard" style="opacity: 0;">
       <div class="l-grid">
         <div class="l-grid__item">
           <div class="c-card">
@@ -493,7 +493,7 @@
             <div class="header">Свой список</div>
             <textarea rows="15" cols="50"></textarea>
             <hr />
-            <button>Применить</button>
+            <button id="start-me">Применить</button>
           </div>
           <div id="canvas"></div>
         </div>
@@ -718,15 +718,7 @@
       }
 
       function loadImage() {
-        var leaderClass = new LeaderBoard();
-        var leaderboard = document.getElementById('leaderboard');
-        
-        leaderboard.style.opacity=1;
-        leaderboard.style.zIndex=99;
-        if (leaderboard.classList.contains("disappear")){
-            element.classList.add('disappear');
-         }
-         leaderClass.renderLeaderShip();
+        document.getElementById('start-me').click();
         }
     </script>
   </body>

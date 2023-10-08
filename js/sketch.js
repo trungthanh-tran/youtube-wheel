@@ -12,26 +12,26 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtube-player', {
     height: '100%',
     width: '100%',
-    videoId: 'AN3UmL1Lvao',
+    videoId: 'k85mRPqvMbE',
     playerVars: {
       'version': 3,
       'controls': 0,
       'start': 0,
-      'end': 10,
+      'end': 30,
       'modestbranding': 1,
       'autoplay': 1,
       'controls': 1,
       'playsinline': 1
     },
     events: {
-      //'onReady': onPlayerReady
+      'onReady': onPlayerReady
     }
   });
 }
 
 function onPlayerReady(e) {
   e.target.playVideo();
-  e.target.setVolume(20);
+  player.setVolume(20);
   setTimeout(updateDisplay.bind(this, e), 1000);
   loopVideo();
 }
