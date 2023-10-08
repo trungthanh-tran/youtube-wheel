@@ -152,13 +152,6 @@ editConfirmButton.addEventListener('click', function () {
 
 const p5Wheel = new p5(WheelSketch);
 
-const DMCAPlaylistSwitcher = new CheckboxStateable('with-dmca', 'video-with-dmca-protection', CheckboxStateable.MODE_MERGE);
-DMCAPlaylistSwitcher
-    .setValues(videosProtected, videosFree)
-    .onSwitch((value) => {
-        p5Wheel.setVideo(new Video(value));
-    })
-;
 
 
 const image = document.querySelector('#item-image img');
