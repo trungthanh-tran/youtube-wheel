@@ -524,3 +524,53 @@ div > #copy-last-selected:active {
 	position: absolute;
 	clip-path: ellipse(50% 50% at 50% 50%);
 }
+
+
+.btn--shockwave {
+	-webkit-animation: shockwaveJump 1s ease-out infinite;
+			animation: shockwaveJump 1s ease-out infinite;
+  }
+  .btn--shockwave:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 50%;
+	-webkit-animation: shockwave 1s 0.65s ease-out infinite;
+			animation: shockwave 1s 0.65s ease-out infinite;
+  }
+  .btn--shockwave:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 50%;
+	-webkit-animation: shockwave 1s 0.5s ease-out infinite;
+			animation: shockwave 1s 0.5s ease-out infinite;
+  }
+
+  @keyframes shockwaveJump {
+	0% {
+	  transform: scale(1);
+	}
+	40% {
+	  transform: scale(1.08);
+	}
+	50% {
+	  transform: scale(0.98);
+	}
+	55% {
+	  transform: scale(1.02);
+	}
+	60% {
+	  transform: scale(0.98);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+  
