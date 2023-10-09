@@ -42,6 +42,7 @@ class FPSCounter {
         ;
 
         this._draw = () => {
+            console.log(p5.frameRate());
             drawGraphics(graphicsBuffer, p5.frameRate());
             p5.image(graphicsBuffer, x, y);
         };

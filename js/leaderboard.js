@@ -57,8 +57,11 @@ class LeaderBoard {
   }
 
   renderLeaderShip() {
-    document.getElementById('leaderboard').setAttribute('style', '')
+    var leaderboard = document.getElementById('leaderboard')
+    leaderboard.style.opacity="1";
+    leaderboard.style.zIndex="100";
     let leaderboardList = document.getElementById('leaderboardList');
+    leaderboardList.innerHTML = "";
     this.getLeaderBoard();
     this.team.forEach((member) => {
         let newRow = document.createElement("li");

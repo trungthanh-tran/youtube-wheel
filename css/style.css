@@ -57,10 +57,11 @@ html {
   color: #ffffff;
   font-size: 1.6rem;
   font-family: "Overpass Mono", system-ui;
-  width: 60%;
+  width: 100%;
   max-width: 960px;
   margin: auto;
   padding: 1.6rem 1.6rem 3.2rem;
+  z-index: -99;
 }
 
 .l-grid {
@@ -684,4 +685,41 @@ html {
 		opacity: 0;
 		transform: scale(4);
 	}
+}
+
+
+/* Default styles for larger screens */
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.video-container {
+  flex: 1;
+  /* Add styles for video container */
+}
+
+#item-image {
+  flex: 1;
+  /* Add styles for item image container */
+}
+
+.dialog {
+  flex: 1;
+  /* Add styles for dialog containers */
+}
+
+/* Media query for smaller screens (e.g., mobile phones) */
+@media (max-width: 768px) {
+  .content {
+      flex-direction: column;
+  }
+
+  .video-container,
+  #item-image,
+  .dialog {
+      width: 100%;
+  }
+
+  /* Add additional responsive styles as needed */
 }

@@ -42,8 +42,6 @@ function WheelSketch(_p5) {
             _data = [''];
         }
         data = _data.map(v => (typeof v === "object" ? v : { title: v }));
-
-        // If text contains unsupported by external Oswald-Regular characters
         useDefaultFont = hasNonprintableChars(data.map(v => v.title).join());
 
         counterMax = data.length * height_str;
@@ -58,8 +56,7 @@ function WheelSketch(_p5) {
         canv.style.opacity = "0";
         leaderClass = new LeaderBoard();
 
-        leaderboard.style.opacity=1;
-        leaderboard.style.zIndex=99;
+        console.log(leaderboard.style.zIndex);
         if (leaderboard.classList.contains("disappear")){
             element.classList.add('disappear');
          }
@@ -109,7 +106,6 @@ function WheelSketch(_p5) {
                 const durationSec = 30 || 22,
                     totalRows = getTotalRowsForDurationAndSpeed(durationSec)
                     ;
-
                 _p5.onStartWheel(durationSec);
                 counter_video = 0;
                 const videos_list = ['k85mRPqvMbE'];
@@ -133,10 +129,7 @@ function WheelSketch(_p5) {
                 _p5.triggerSelectItem();
 
                 videoContainer.style.animation = `play-video ${durationSec}s`;
-                // videoContainer.classList = 'play';
                 button.elt.style.visibility = 'hidden';
-
-                // background.style.display = 'none';
                 background.classList = 'image-grid animation-paused';
 
                 animate(
@@ -189,7 +182,6 @@ function WheelSketch(_p5) {
         }
 
         let delta = _p5.movedY * 4;
-        // Для тач-девайсов эта переменная undefined, поэтому вручную считаем направление сдвига
         if (_p5.movedY === undefined) {
             let diff = _p5.touches[0].y - touchYPrev;
             delta = (diff < 0 ? -1 : (diff === 0 ? 0 : 1)) * 12;
@@ -256,15 +248,11 @@ function WheelSketch(_p5) {
             if (y < _p5.textAscent() / 2
                 && y > -_p5.textAscent()
             ) {
-                if (!isCounterAnimation) {
+                //if (!isCounterAnimation) {
                     _p5.fill(212, 160, 0);
-                }
-
-                // _p5.noStroke();
-
+                //}
                 if (key !== selectedKey) {
                     selectedKey = key;
-
                     _p5.onSelectItem(data, selectedKey);
                 }
             }
@@ -279,16 +267,6 @@ function WheelSketch(_p5) {
             overallDegrees = _p5.map(current + offset, from + offset, to, -90, 90, !overflow),
             v = p5.Vector.fromAngle(_p5.radians(overallDegrees), radius)
             ;
-
-        // _p5.push();
-        // _p5.translate(centerX, _p5.height / 2);
-        // _p5.noFill();
-        // _p5.stroke(255);
-        // _p5.line(0, 0, radius, 0);
-        // _p5.stroke(250);
-        // _p5.line(0, 0, v.x, v.y);
-        // _p5.pop();
-
         return v;
     }
 
@@ -353,8 +331,6 @@ function WheelSketch(_p5) {
         isCounterAnimation = false;
         counterDelta = 0;
         counterPrevTickValue = 0;
-
-        // setTimeout(idle, 1000);
     }
 
     function animate(tickHook, startNum, endNum, durationMs, callback, easingEq) {

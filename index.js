@@ -152,8 +152,6 @@ editConfirmButton.addEventListener('click', function () {
 
 const p5Wheel = new p5(WheelSketch);
 
-
-
 const image = document.querySelector('#item-image img');
 let currentUrl = window.location.href;
 currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
@@ -164,6 +162,7 @@ p5Wheel.onStartWheel = (durationSec) => {
     if (currentDataSet === 'meetings' || currentDataSet === 'custom' || currentDataSet === 'pvp') {
         p5ImagePlayer.onStartWheel(durationSec);
     }
+    console.log(durationSec);
 };
 
 let selectedText = '', lastSelectedText = '';
