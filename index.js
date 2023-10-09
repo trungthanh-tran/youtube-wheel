@@ -232,6 +232,8 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     if (image.src !== url) {
         image.src = url;
     }
+    console.log(p5Wheel.getSelectedKey());
+    console.log(data[p5Wheel.getSelectedKey()]);
 };
 
 const customDialog = document.getElementById('custom-list'),
@@ -275,6 +277,9 @@ const customDialog = document.getElementById('custom-list'),
 ;
 
 customButton.addEventListener('click', customSubmitHandler);
+
+const tapmeButton = document.getElementById('item-image');
+tapmeButton.addEventListener('click', function() {alert(p5Wheel.getSelectedKey())});
 
 let radios = document.querySelectorAll('[name="list"]');
 for(let i = 0; i < radios.length; i++) {

@@ -47,7 +47,9 @@ function WheelSketch(_p5) {
         counter = counterInitial;
         _p5.triggerSelectItem();
     };
-
+    _p5.getSelectedKey = function () {
+        return selectedKey;
+    }
     _p5.onAfterSetup = function () {};
     _p5.onNextRound =  function () {
         var canv = document.getElementById('countdown-canvas');
