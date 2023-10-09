@@ -37,7 +37,6 @@ function WheelSketch(_p5) {
         ;
 
     _p5.setData = function (_data) {
-        // console.log(_data);
         if (!_data.length) {
             _data = [''];
         }
@@ -55,8 +54,6 @@ function WheelSketch(_p5) {
         var leaderboard = document.getElementById('leaderboard');
         canv.style.opacity = "0";
         leaderClass = new LeaderBoard();
-
-        console.log(leaderboard.style.zIndex);
         if (leaderboard.classList.contains("disappear")){
             element.classList.add('disappear');
          }

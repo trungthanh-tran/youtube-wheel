@@ -204,10 +204,6 @@ class PresetItems extends Preset {
                 editedDataSets[currentDataSet][entryTitle] = e.target.checked; // this._isTurnOn;
             }
         }
-
-        // console.log(this._optionsContainer.querySelectorAll(':checked'));
-        // this.renderOptions(editedDataSets[currentDataSet], this._isReadOnly);
-
         return false;
     }
 
