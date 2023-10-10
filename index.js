@@ -98,29 +98,8 @@ const
 
         customDialog.style.display = 'none';
         p5Wheel.mouseDragEnable();
-
-        if (presetManager.hasPreset(currentDataSet)) {
-            if (!editedDataSets[currentDataSet]) {
-                editPresets.innerHTML = '';
-                editPresets.append(...presetManager.getNodes(currentDataSet));
-            }
-
-            p5Wheel.setData(editedDataToArray());
-
-            editHeader.textContent = this.nextElementSibling.innerText;
-
-            if (this.getAttribute('data-show-edit-dialog')) {
-                editButton.dispatchEvent(new Event('click'));
-            }
-            else {
-                this.parentElement.append(editButton);
-                editButton.className = '';
-            }
-        }
-        else {
-            p5Wheel.setData(dataSets[currentDataSet]);
-            editButton.className = 'hide';
-        }
+        p5Wheel.setData(dataSets['coin'], 0);
+        editButton.className = 'hide';
     }
 ;
 
@@ -162,7 +141,6 @@ p5Wheel.onStartWheel = (durationSec) => {
     if (currentDataSet === 'meetings' || currentDataSet === 'custom' || currentDataSet === 'pvp') {
         p5ImagePlayer.onStartWheel(durationSec);
     }
-    console.log(durationSec);
 };
 
 let selectedText = '', lastSelectedText = '';
@@ -232,8 +210,6 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     if (image.src !== url) {
         image.src = url;
     }
-    console.log(p5Wheel.getSelectedKey());
-    console.log(data[p5Wheel.getSelectedKey()]);
 };
 
 const customDialog = document.getElementById('custom-list'),

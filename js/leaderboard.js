@@ -100,4 +100,12 @@ class LeaderBoard {
         leaderboardList.appendChild(newRow);
       });
   }
+
+  clearLeaderboard() {
+    var leaderboard = document.getElementById('leaderboard')
+    leaderboard.style.opacity="0";
+    leaderboard.style.zIndex="-99";
+    let leaderboardList = document.getElementById('leaderboardList');
+    leaderboardList.innerHTML = "";
+  }
 }

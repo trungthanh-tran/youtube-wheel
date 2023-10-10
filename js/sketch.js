@@ -49,7 +49,6 @@ function updateDisplay(e) {
 
 
 function loopVideo() {
-  // console.log(player.getCurrentTime());
   setTimeout(loopVideo, 0);
 
   if (player.getCurrentTime() >= timeStamps[1]) {
