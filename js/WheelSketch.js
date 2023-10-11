@@ -61,6 +61,7 @@ function WheelSketch(_p5) {
   };
   _p5.onAfterSetup = function () {};
   _p5.onNextRound = function () {
+    button.elt.style.visibility = null;
     var canv = document.getElementById("countdown-canvas");
     var leaderboard = document.getElementById("leaderboard");
     canv.style.opacity = "0";

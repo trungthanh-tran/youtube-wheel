@@ -542,8 +542,8 @@ svg {
 			animation-duration: 4s;
 	-webkit-animation-timing-function: linear;
 			animation-timing-function: linear;
-	-webkit-animation-iteration-count: infinite;
-			animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: 1;
+			animation-iteration-count: 1;
   }
   g > text:nth-child(1) { -webkit-animation-delay: 0s; animation-delay: 0s; }
   g > text:nth-child(2) { -webkit-animation-delay: 1s; animation-delay: 1s; }
