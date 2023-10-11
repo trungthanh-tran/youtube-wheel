@@ -69,16 +69,60 @@ function WheelSketch(_p5) {
     if (!leaderboard.classList.contains("disappear")) {
       leaderboard.classList.add("disappear");
     }
-    leaderClass.renderLeaderShip();
-    currentRound = currentRound + 1;
-    if (currentRound < data_list.length) {
-      setTimeout(function () {
+    //leaderClass.renderLeaderShip();
+
+    var overlay = document.createElement("div");
+    overlay.id = "overlay";
+    document.body.appendChild(overlay);
+
+    // Create an SVG element
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.id = "my-svg";
+    svg.setAttribute("viewBox", "-500 -500 1000 1000");
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", "100%");
+    svg.setAttribute("preserveAspectRatio", "xMidYMin slice");
+
+    // Create the SVG content
+    var svgContent = `
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -5" result="goo"></feColorMatrix>
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+            </filter>
+        </defs>
+        <text x="0" y="-250" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the next round</text>
+        <g filter="url(#goo)">
+            <text x="0" y="150">3</text>
+            <text x="0" y="150">2</text>
+            <text x="0" y="150">1</text>
+            <text x="0" y="150">GO</text>
+        </g>
+    `;
+
+    // Set the HTML content of the SVG element
+    svg.innerHTML = svgContent;
+
+    // Append the SVG element to the body
+    document.body.appendChild(svg);
+
+    // Show the overlay
+    overlay.style.display = "flex";
+
+    // Remove the overlay and SVG after a timeout (5 seconds in this example)
+    setTimeout(function () {
+      overlay.style.display = "none";
+      overlay.remove();
+      svg.remove();
+      currentRound = currentRound + 1;
+      if (currentRound < data_list.length) {
         canv.style.opacity = "1";
         _p5.reloadData(currentRound);
         _p5.playRound();
         leaderClass.clearLeaderboard();
-      }, 2000);
-    }
+      }
+    }, 4000);
   };
 
   _p5.onSelectItem = function (items, selectedKey) {};
@@ -99,7 +143,10 @@ function WheelSketch(_p5) {
       videoContainer = document.getElementById("filter-shadow");
     if (!isCounterAnimation) {
       const durationSec = 30,
-        totalRows = getTotalRowsForDurationAndSpeed(durationSec, Math.floor(Math.random() * (6 - 2) ) + 2);
+        totalRows = getTotalRowsForDurationAndSpeed(
+          durationSec,
+          Math.floor(Math.random() * (6 - 2)) + 2
+        );
       _p5.onStartWheel(durationSec);
       if (player) {
         player.loadVideoById(data_list[currentRound].id);

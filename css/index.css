@@ -1,5 +1,5 @@
 @import url(range.css);
-
+@import url('https://fonts.googleapis.com/css?family=Overpass+Mono:600');
 @font-face {
 	font-family: "Oswald-Regular";
 	src: url('../fonts/Oswald-Regular.ttf');
@@ -524,53 +524,69 @@ div > #copy-last-selected:active {
 	position: absolute;
 	clip-path: ellipse(50% 50% at 50% 50%);
 }
-
-
-.btn--shockwave {
-	-webkit-animation: shockwaveJump 1s ease-out infinite;
-			animation: shockwaveJump 1s ease-out infinite;
+/* Countdowwn*/
+svg {
+	display: flex;
+	margin: auto;
+	width: 100vmin;
   }
-  .btn--shockwave:after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	border-radius: 50%;
-	-webkit-animation: shockwave 1s 0.65s ease-out infinite;
-			animation: shockwave 1s 0.65s ease-out infinite;
+  g > text {
+	text-anchor: middle;
+	font-size: 400px;
+	font-family: Overpass Mono, monospace;
+	fill: hsla(210, 100%, 75%, 0.85);
+	opacity: 0;
+	-webkit-animation-name: opac;
+			animation-name: opac;
+	-webkit-animation-duration: 4s;
+			animation-duration: 4s;
+	-webkit-animation-timing-function: linear;
+			animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
   }
-  .btn--shockwave:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	border-radius: 50%;
-	-webkit-animation: shockwave 1s 0.5s ease-out infinite;
-			animation: shockwave 1s 0.5s ease-out infinite;
-  }
-
-  @keyframes shockwaveJump {
-	0% {
-	  transform: scale(1);
-	}
-	40% {
-	  transform: scale(1.2);
-	}
-	50% {
-	  transform: scale(0.8);
-	}
-	55% {
-	  transform: scale(1.2);
-	}
-	60% {
-	  transform: scale(0.8);
-	}
-	100% {
-	  transform: scale(1);
-	}
+  g > text:nth-child(1) { -webkit-animation-delay: 0s; animation-delay: 0s; }
+  g > text:nth-child(2) { -webkit-animation-delay: 1s; animation-delay: 1s; }
+  g > text:nth-child(3) { -webkit-animation-delay: 2s; animation-delay: 2s; }
+  g > text:nth-child(4) { -webkit-animation-delay: 3s; animation-delay: 3s; }
+  
+  @-webkit-keyframes opac {
+	0% { opacity: 0; }
+	5% { opacity: 1; }
+	10% { opacity: 1; }
+	15% { opacity: 0; }
+	100% { opacity: 0; }
   }
   
+  @keyframes opac {
+	0% { opacity: 0; }
+	5% { opacity: 1; }
+	10% { opacity: 1; }
+	15% { opacity: 0; }
+	100% { opacity: 0; }
+  }
+  #overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.1); /* Semi-transparent black overlay */
+	display: none;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999; /* Ensure the overlay is on top */
+}
+
+#svg-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#my-svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
