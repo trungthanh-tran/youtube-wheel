@@ -61,7 +61,6 @@ function WheelSketch(_p5) {
   };
   _p5.onAfterSetup = function () {};
   _p5.onNextRound = function () {
-    button.elt.style.visibility = null;
     var canv = document.getElementById("countdown-canvas");
     var leaderboard = document.getElementById("leaderboard");
     canv.style.opacity = "0";
@@ -163,7 +162,8 @@ function WheelSketch(_p5) {
       _p5.triggerSelectItem();
 
       videoContainer.style.animation = `play-video ${durationSec}s`;
-      button.elt.style.visibility = "hidden";
+      const overlaystart = document.querySelector("#overlay-start");
+      overlaystart.style.visibility = "hidden";
       background.classList = "image-grid animation-paused";
       animate(
         tickCounter,
@@ -172,7 +172,7 @@ function WheelSketch(_p5) {
         durationSec * 1000,
         () => {
           // background.style.display = null;
-          button.elt.style.visibility = null;
+          //button.elt.style.visibility = null;
           videoContainer.style.animation = null;
           // videoContainer.classList = '';
           background.classList = "image-grid";
@@ -201,9 +201,13 @@ function WheelSketch(_p5) {
     circleTop = (_p5.height - diameter) / 2 + _p5.textAscent() / 3;
     circleCenterY = circleTop + radius;
     counter = counterInitial;
-    button = _p5.createButton("Join us");
-    button.parent(document.querySelector(".content"));
-    button.mousePressed(function () {
+    button = document.querySelector("#play-button");
+    console.log(button);
+    /*button.addEventListener("keypress", function () {
+
+    });*/
+
+    button.addEventListener("click", function(event) {
       _p5.playRound();
       return false;
     });
@@ -323,7 +327,7 @@ function WheelSketch(_p5) {
   };
 
   function vect(current, from, to, overflow = true) {
-    const offset = -3, // выравниваем центральный элемент списка вертикально по центру
+    const offset = -3,
       overallDegrees = _p5.map(
         current + offset,
         from + offset,

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Spin Coin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body onload="loadImage()">
+  <body>
     <div class="image-grid-view">
       <div class="hero-background">
         <ul class="image-grid">
@@ -446,9 +447,12 @@
           </li>
         </ul>
       </div>
-      <div class="hero-background-overlay"></div>
-      <!--        <div class="hero-background-stripe"></div>-->
     </div>
+    <div class="container">
+      <div class="overlay-start" id="overlay-start">
+        <svg xmlns="http://www.w3.org/2000/svg" tabindex="0" viewBox="0 0 32 32" id="play-button" width="100px"><linearGradient id="a" x1="16" x2="16" y1="28.004" y2="3.996" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff2d76"></stop><stop offset="1" stop-color="#fb0000"></stop></linearGradient><path fill="url(#a)" d="M31.68 9.177s-.312-2.354-1.271-3.39c-1.217-1.358-2.581-1.366-3.206-1.443-4.478-.347-11.196-.347-11.196-.347h-.015s-6.717 0-11.194.347c-.626.076-1.988.084-3.206 1.443C.633 6.823.32 9.177.32 9.177S0 11.939 0 14.701v2.589c0 2.764.32 5.525.32 5.525s.312 2.353 1.271 3.387c1.218 1.358 2.816 1.317 3.528 1.459 2.56.262 10.881.343 10.881.343s6.724-.012 11.203-.355c.625-.08 1.989-.088 3.206-1.447.958-1.034 1.271-3.387 1.271-3.387s.32-2.762.32-5.525v-2.589c0-2.762-.32-5.524-.32-5.524zM12.004 22.002V9.998L22.007 16l-10.003 6.002z"></path></svg>
+      </div>
+      <div class="container1">
 
     <div class="l-wrapper" id="leaderboard" style="opacity: 0;">
       <div class="l-grid">
@@ -480,13 +484,6 @@
     </div>
 
     <div class="content" id="main-content">
-      <div id="filter-shadow">
-        <div class="video-container" style="display: none">
-          <div class="video-foreground">
-            <div id="youtube-player"></div>
-          </div>
-      </div>
-      </div>
       <div id="canvas"></div>
 
       <div id="item-image">
@@ -712,9 +709,13 @@
         const circulation = new Circulation(canv, 30000);
         circulation.startInterval(100);
       }
-
-      function loadImage() {
-
     </script>
+    </div>
+    </div>
+    <div class="container2">     <div id="filter-shadow">
+              <div class="video-container" style="display: none">
+                  <div id="youtube-player"></div>
+            </div></div>
+  </div>
   </body>
 </html>

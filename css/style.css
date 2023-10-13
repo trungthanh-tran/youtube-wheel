@@ -19,9 +19,8 @@ html, body {
 
 .video-container iframe{
   position: absolute;
-  top: -60px;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: calc(100% + 120px);
 }
 
@@ -695,7 +694,6 @@ html {
 }
 
 .video-container {
-  flex: 1;
   /* Add styles for video container */
 }
 
