@@ -499,6 +499,7 @@ div > #copy-last-selected:active {
 	width: 50vw;
 	height: 80vh;
 	border: none;
+	clip-path: ellipse(90% 50% at 50% 50%);
   }
 
   
