@@ -603,9 +603,11 @@ div > #copy-last-selected:active {
   
 	.container1 {
 	  order: 2; /* Swap the order of the containers */
+	  width: unset;
 	}
 	.container2 {
 		height: 50vh;
+		max-height: 50vh;
 		order: 1;
 	  }
   }
