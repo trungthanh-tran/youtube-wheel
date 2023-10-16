@@ -495,20 +495,23 @@ div > #copy-last-selected:active {
 }
 
 #youtube-player {
-	aspect-ratio: 16 / 9;
 	position: relative;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	width: 100%;
-	height: 100%;
+	width: 50vw;
+	height: 80vh;
 	border: none;
   }
 
   
-  .video-container .player {
+  .video-container {
 	pointer-events: none;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	width: 70vw;
   }
   /*
   .video-container iframe{
@@ -632,6 +635,19 @@ div > #copy-last-selected:active {
 		height: 50vh;
 		max-height: 50vh;
 		order: 1;
+	  }
+	  .video-container {
+		padding-bottom: 75%; /* 4:3 Aspect Ratio */
+		width: 80%;
+	  }
+
+	  #youtube-player {
+		position: absolute;
+		width: 100%;
+		height:100%
+	  }
+	  #filter-shadow {
+		padding-top: 20vh;
 	  }
   }
   
