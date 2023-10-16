@@ -494,6 +494,12 @@ div > #copy-last-selected:active {
 	display: none;
 }
 
+#youtube-player {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	clip-path: ellipse(50% 50% at 50% 50%);
+  }
+
 /*
 
 .video-container #youtube-player {
