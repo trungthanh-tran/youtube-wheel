@@ -10,6 +10,8 @@ let player, timeStamps = [0, 30];
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtube-player', {
+    height: '390',
+    width: '640',
     videoId: 'k85mRPqvMbE',
     playerVars: {
       'version': 3,
