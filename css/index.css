@@ -605,8 +605,8 @@ div > #copy-last-selected:active {
 	  order: 2; /* Swap the order of the containers */
 	}
 	.container2 {
-		max-height: 50vh;
-		
+		height: 50vh;
+		order: 1;
 	  }
   }
   
