@@ -690,7 +690,6 @@ html {
 @media (max-width: 768px) {
   .content {
       flex-direction: column;
-      height: 50vh;
   }
 
   .video-container,

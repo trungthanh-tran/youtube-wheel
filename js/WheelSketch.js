@@ -202,11 +202,6 @@ function WheelSketch(_p5) {
     circleCenterY = circleTop + radius;
     counter = counterInitial;
     button = document.querySelector("#play-button");
-    console.log(button);
-    /*button.addEventListener("keypress", function () {
-
-    });*/
-
     button.addEventListener("click", function(event) {
       _p5.playRound();
       return false;

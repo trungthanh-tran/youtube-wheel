@@ -49,10 +49,6 @@ label:hover {
 @media only screen and (max-width: 600px) {
 }
 
-#canvas {
-	position: relative;
-	font-size: 0;
-}
 @keyframes play-video {
 	0.01% {
 		opacity: 0;
@@ -620,7 +616,11 @@ div > #copy-last-selected:active {
 	padding: 20px;
 	/*width:30vw;*/
   }
-  
+#canvas {
+	position: relative;
+	font-size: 0;
+}
+
   /* Media query for mobile layout */
   @media (max-width: 768px) {
 	.container {
@@ -632,8 +632,8 @@ div > #copy-last-selected:active {
 	  width: unset;
 	}
 	.container2 {
-		height: 50vh;
-		max-height: 50vh;
+		height: 30vh;
+		max-height: 30vh;
 		order: 1;
 	  }
 	  .video-container {
@@ -647,7 +647,10 @@ div > #copy-last-selected:active {
 		height:100%
 	  }
 	  #filter-shadow {
-		padding-top: 20vh;
+		padding-top: 10vh;
+	  }
+	  #canvas {
+		left: 70%;
 	  }
   }
   
