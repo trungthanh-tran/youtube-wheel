@@ -668,7 +668,7 @@ div > #copy-last-selected:active {
 	position: absolute !important;
     z-index: 1000;
     top: 0;
-    left: 40vh;
+    left: 40vw;
     background-color: transparent;
     width: 20vw;
   }
