@@ -671,11 +671,10 @@ html {
 .content {
   display: flex;
   flex-wrap: wrap;
+  height: 80vh;
 }
 
-.video-container {
-  /* Add styles for video container */
-}
+
 
 #item-image {
   flex: 1;
@@ -691,6 +690,7 @@ html {
 @media (max-width: 768px) {
   .content {
       flex-direction: column;
+      height: 50vh;
   }
 
   .video-container,
