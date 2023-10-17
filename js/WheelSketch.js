@@ -62,13 +62,8 @@ function WheelSketch(_p5) {
   _p5.onAfterSetup = function () {};
   _p5.onNextRound = function () {
     var canv = document.getElementById("countdown-canvas");
-    var leaderboard = document.getElementById("leaderboard");
     canv.style.opacity = "0";
-    leaderboard.style.opacity = "1";
-    leaderClass = new LeaderBoard();
-    if (!leaderboard.classList.contains("disappear")) {
-      leaderboard.classList.add("disappear");
-    }
+
     //leaderClass.renderLeaderShip();
 
     var overlay = document.createElement("div");
@@ -110,19 +105,26 @@ function WheelSketch(_p5) {
     // Show the overlay
     overlay.style.display = "flex";
 
-    // Remove the overlay and SVG after a timeout (5 seconds in this example)
-    setTimeout(function () {
-      overlay.style.display = "none";
-      overlay.remove();
-      svg.remove();
-      currentRound = currentRound + 1;
-      if (currentRound < data_list.length) {
+    currentRound = currentRound + 1;
+    if (currentRound < data_list.length) {
+      // Remove the overlay and SVG after a timeout (5 seconds in this example)
+      setTimeout(function () {
+        overlay.style.display = "none";
+        overlay.remove();
+        svg.remove();
         canv.style.opacity = "1";
         _p5.reloadData(currentRound);
         _p5.playRound();
-        leaderClass.clearLeaderboard();
+      }, 4000);
+    } else {
+      var leaderboard = document.getElementById("leaderboard");
+      leaderboard.style.opacity = "1";
+      leaderboard.style.zIndex= 999;
+      leaderClass = new LeaderBoard();
+      if (!leaderboard.classList.contains("disappear")) {
+        leaderboard.classList.add("disappear");
       }
-    }, 4000);
+    }
   };
 
   _p5.onSelectItem = function (items, selectedKey) {};
@@ -202,7 +204,7 @@ function WheelSketch(_p5) {
     circleCenterY = circleTop + radius;
     counter = counterInitial;
     button = document.querySelector("#play-button");
-    button.addEventListener("click", function(event) {
+    button.addEventListener("click", function (event) {
       _p5.playRound();
       return false;
     });
