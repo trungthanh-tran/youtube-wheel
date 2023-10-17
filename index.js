@@ -6,11 +6,6 @@ let currentDataSet = 'inventory',
 const
     isDebug = new URLSearchParams(document.location.search).get('debug'),
     editDialog = document.getElementById('dialog-edit'),
-    editButton = document.getElementById('btn-edit'),
-    editConfirmButton = editDialog.getElementsByClassName('apply')[0],
-    editOptions = editDialog.getElementsByClassName('options')[0],
-    editPresets = editDialog.getElementsByClassName('presets')[0],
-    editHeader = editDialog.getElementsByClassName('header')[0],
     presetManager = new PresetManager,
     itemsPresets = [
         new PresetGroup('Уровень 1'),
@@ -58,76 +53,7 @@ const
         }
 
         return result;
-    },
-    radioClickHandler = function () {
-        currentDataSet = this.value;
-
-        if (currentDataSet === 'custom') {
-            p5Wheel.mouseDragEnable(false);
-            customDialog.style.display = 'block';
-            editButton.className = 'hide';
-
-            return;
-        }
-        else if (currentDataSet === 'items') {
-            if (this.getAttribute('data-show-edit-dialog')) {
-                editDialog.style.display = 'block';
-                p5Wheel.mouseDragEnable(false);
-            }
-
-            // if (itemsEditedDataSet) {
-            //     editedDataSets[currentDataSet] = itemsEditedDataSet;
-            // }
-            // else {
-                resetEditedDataSet(false);
-            // }
-
-            editHeader.textContent = this.nextElementSibling.innerText;
-            editPresets.innerHTML = '';
-            editOptions.innerHTML = '';
-            itemsPresets.forEach((preset, i) => {
-                editPresets.append(preset.getDOMNode(currentDataSet, i));
-                // preset.renderOptions(editedDataSets[currentDataSet], false);
-            });
-
-            // this.parentElement.append(editButton);
-            // editButton.className = '';
-
-            return;
-        }
-
-        customDialog.style.display = 'none';
-        p5Wheel.mouseDragEnable();
-        p5Wheel.setData(dataSets['coin'], 0);
-        editButton.className = 'hide';
-    }
-;
-
-editButton.addEventListener('click', function () {
-    if (currentDataSet === 'custom') {
-        p5Wheel.mouseDragEnable(false);
-        customDialog.style.display = 'block';
-
-        return;
-    }
-
-    editDialog.style.display = 'block';
-    p5Wheel.mouseDragEnable(false);
-
-    editPresets.innerHTML = '';
-    editPresets.append(...presetManager.getNodes(currentDataSet));
-    presetManager.renderOptions(editedDataSets[currentDataSet], currentDataSet);
-});
-editConfirmButton.addEventListener('click', function () {
-    editDialog.style.display = 'none';
-    p5Wheel.mouseDragEnable();
-
-    p5Wheel.setData(editedDataToArray());
-    //
-    // if (currentDataSet === 'items') {
-    //     itemsEditedDataSet = editedDataSets[currentDataSet];
-    // }
-});
+    };
 
 const p5Wheel = new p5(WheelSketch);
 
@@ -144,32 +70,7 @@ p5Wheel.onStartWheel = (durationSec) => {
 };
 
 let selectedText = '', lastSelectedText = '';
-const
-    lastWheelTextEl = document.getElementById('last-selected-text'),
-    onStopLastTextHandler = () => {
-        lastSelectedText = selectedText;
-        lastWheelTextEl.innerHTML = `Выпало в прошлый раз: «${lastSelectedText}»`;
-        document.getElementById('copy-last-selected').setAttribute('style', 'visibility: visible')
-    },
-    lastWheelBtnEl = document.getElementById('copy-last-selected'),
-    lastWheelLinkHandler = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
 
-        navigator.clipboard.writeText(lastSelectedText.replace(/["',:]/g, ''))
-        /*.then(() => {
-            // clipboard successfully set
-        }, () => {
-            // clipboard write failed
-            console.error("Failed to set clipboard: ", selectedText)
-        });*/
-    }
-;
-lastWheelBtnEl.addEventListener('click', lastWheelLinkHandler);
-
-p5Wheel.onStopWheel = () => {
-    onStopLastTextHandler();
-};
 
 let deltas = [];
 setInterval(() => {
@@ -196,12 +97,6 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     selectedText = data[selectedKey] ? data[selectedKey].title || data[selectedKey] : '';
 
     let url = currentUrl + '/images/000.png';
-    // if (dataSets[currentDataSet]) {
-    //     const imageIndex = dataSets[currentDataSet].indexOf(data[selectedKey]);
-    //     if (imageIndex !== -1) {
-    //         url = getImageURI(imageIndex);
-    //     }
-    // }
 
     if (data[selectedKey] && typeof data[selectedKey].image === 'string') {
         url = currentUrl +'/images'+ data[selectedKey].image;
@@ -212,64 +107,9 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     }
 };
 
-const customDialog = document.getElementById('custom-list'),
-    customTextarea = customDialog.getElementsByTagName('textarea')[0],
-    customButton = customDialog.getElementsByTagName('button')[0],
-    saveCustomData = function (stringData) {
-        const url = new URL(window.location);
-
-        document.title = 'Колесо WhoPG2 (' + stringData.substring(0, 30) + '…)';
-
-        url.search = new URLSearchParams({custom: stringData});
-        // console.log(url.toString());
-        history.pushState({}, '', url.toString());
-    },
-    loadCustomData = function () {
-        const urlSearchParams = new URL(window.location).searchParams,
-            list = urlSearchParams.get('custom')
-        ;
-
-        return list;
-    },
-    applyCustomData = function (customData) {
-        const customRadio = document.querySelector('[name="list"][value="custom"]');
-        customTextarea.value = customData;
-
-        customRadio.dispatchEvent(new Event('click'));
-        customButton.dispatchEvent(new Event('click'));
-        customRadio.setAttribute('checked', true);
-    },
-    windowPopStateHandler = function (event) {
-        applyCustomData(loadCustomData());
-    },
-    customSubmitHandler = function () {
-        customDialog.style.display = 'none';
-
-        p5Wheel.setData(customTextarea.value.split('\n'));
-        p5Wheel.mouseDragEnable();
-
-        saveCustomData(customTextarea.value);
-    }
-;
-
-customButton.addEventListener('click', customSubmitHandler);
-
 const tapmeButton = document.getElementById('item-image');
 tapmeButton.addEventListener('click', function() {alert(p5Wheel.getSelectedKey())});
 
-let radios = document.querySelectorAll('[name="list"]');
-for(let i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('click', radioClickHandler);
 
-    // Выбираем начальный вариант при загрузке страницы
-    if (radios[i].hasAttribute('checked')) {
-        radios[i].dispatchEvent(new Event('click'));
-    }
-}
-
-const customData = loadCustomData();
-if (customData) {
-    applyCustomData(customData);
-}
-
-window.onpopstate = windowPopStateHandler;
+p5Wheel.mouseDragEnable();
+p5Wheel.setData(dataSets['coin'], 0);
