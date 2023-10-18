@@ -12,6 +12,7 @@ function WheelSketch(_p5) {
         fpsCounter = new FPSCounter(700, 450, 100, 50, _p5)
     ;
     let data = [],
+        data_list = [],
         videosList = [
             'videos/14278244937910.webm',
             'videos/14686000376951.webm',
@@ -30,7 +31,8 @@ function WheelSketch(_p5) {
         fontRegular,
         mouseDragEnable = true,
         touchYPrev = 0,
-        useDefaultFont = false
+        useDefaultFont = false,
+        currentRound = 0
     ;
 
     _p5.setData = function (_data) {
@@ -43,6 +45,20 @@ function WheelSketch(_p5) {
         // If text contains unsupported by external Oswald-Regular characters
         useDefaultFont = hasNonprintableChars(data.map(v => v.title).join());
 
+        counterMax = data.length * height_str;
+        counter = counterInitial;
+        _p5.triggerSelectItem();
+    };
+
+    _p5.setData = function (_data_list, index = 0) {
+        data_list = _data_list;
+        let _data = _data_list[index].data;
+        if (!_data.length) {
+          _data = [""];
+        }
+        data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
+        useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
+    
         counterMax = data.length * height_str;
         counter = counterInitial;
         _p5.triggerSelectItem();
@@ -88,8 +104,6 @@ function WheelSketch(_p5) {
         circleCenterY = circleTop + radius;
         counter = counterInitial;
 
-        video = new Video(videosList);
-
         document.addEventListener("visibilitychange", function() {
             if (document.visibilityState === 'visible') {
                 video.setVolume(video.volume);
@@ -99,56 +113,13 @@ function WheelSketch(_p5) {
         });
         // _p5.frameRate(30);
 
-        const background = document.querySelector('.image-grid'),
-            videoContainer = document.getElementById('filter-shadow'),
-            button = _p5.createButton('Крутить')
-        ;
 
-        button.parent(document.querySelector('.content'));
-        button.mousePressed(function () {
-            if (!isCounterAnimation) {
-                const durationSec = video.getDuration() || 22,
-                    totalRows = getTotalRowsForDurationAndSpeed(durationSec)
-                ;
-
-                _p5.onStartWheel(durationSec);
-
-                video.play().catch(console.error);
-                decreaseVolume(durationSec);
-
-                array_shuffle(data);
-                _p5.triggerSelectItem();
-
-                videoContainer.style.animation = `play-video ${durationSec}s`;
-                // videoContainer.classList = 'play';
-                button.elt.style.visibility = 'hidden';
-
-                // background.style.display = 'none';
-                background.classList = 'image-grid animation-paused';
-
-                animate(
-                    tickCounter,
-                    counter,
-                    counter + height_str * totalRows,
-                    durationSec * 1000,
-                    () => {
-                        // background.style.display = null;
-                        button.elt.style.visibility = null;
-                        videoContainer.style.animation = null;
-                        // videoContainer.classList = '';
-                        background.classList = 'image-grid';
-
-                        animCounterStop();
-                        alignToRow(() => {
-                            _p5.onStopWheel();
-                        });
-                        video.pause();
-                    },
-                    easeInOutSine
-                );
-            }
-
-            return false;
+        button = document.querySelector("#play-btn");
+        button.addEventListener("click", function (event) {
+          overlay = document.querySelector("#overlay-start");
+          overlay.style.display = 'none';
+          _p5.playRound();
+          return false;
         });
 
         _p5.onAfterSetup();
@@ -228,6 +199,54 @@ function WheelSketch(_p5) {
           }
         }
     };
+    _p5.playRound = () => {
+        const background = document.querySelector(".image-grid"),
+          videoContainer = document.getElementById("filter-shadow");
+        if (!isCounterAnimation) {
+          const durationSec = 30,
+            totalRows = getTotalRowsForDurationAndSpeed(
+              durationSec,
+              Math.floor(Math.random() * (6 - 2)) + 2
+            );
+          _p5.onStartWheel(durationSec);
+          if (player) {
+            player.loadVideoById(data_list[currentRound].id);
+            player.playVideo();
+          }
+          var canv = document.getElementById("countdown-canvas");
+          const circulation = new Circulation(canv, 30000);
+          circulation.startInterval(100);
+          const vp = document.querySelector("#video");
+          vp.style.display = "block";
+    
+          array_shuffle(data);
+          _p5.triggerSelectItem();
+    
+          videoContainer.style.animation = `play-video ${durationSec}s`;
+          const overlaystart = document.querySelector("#overlay-start");
+          overlaystart.style.visibility = "hidden";
+          background.classList = "image-grid animation-paused";
+          animate(
+            tickCounter,
+            counter,
+            counter + height_str * totalRows,
+            durationSec * 1000,
+            () => {
+              // background.style.display = null;
+              //button.elt.style.visibility = null;
+              videoContainer.style.animation = null;
+              // videoContainer.classList = '';
+              background.classList = "image-grid";
+              animCounterStop();
+              _p5.onNextRound();
+              alignToRow(() => {
+                _p5.onStopWheel();
+              });
+            },
+            easeInOutSine
+          );
+        }
+      };
     
     function getTotalRowsForDurationAndSpeed(videoDurationSec = 22, speedItemsPerSec = 3) {
         return speedItemsPerSec * videoDurationSec;

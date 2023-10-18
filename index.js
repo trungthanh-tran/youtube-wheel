@@ -304,4 +304,5 @@ if (customData) {
     applyCustomData(customData);
 }
 
-window.onpopstate = windowPopStateHandler;
+p5Wheel.mouseDragEnable();
+p5Wheel.setData(dataSets['coin'], 0);
