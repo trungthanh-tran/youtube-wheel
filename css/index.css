@@ -103,6 +103,9 @@ label:hover {
 	#canvas {
 		top: 10vh;
 	}
+	#item-image {
+		top: 10vh;
+	}
   }
 
 #video .overlay {
