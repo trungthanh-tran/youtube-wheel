@@ -5,6 +5,11 @@
 	src: url('../fonts/Oswald-Regular.ttf');
 }
 @font-face {
+	font-family: "Raleway";
+	src: url('../fonts/Raleway-BlackItalic.ttf');
+}
+
+@font-face {
 	font-family: "Oswald-Light";
 	src: url('../fonts/Oswald-Light.ttf');
 }
@@ -622,4 +627,29 @@ div > #copy-last-selected:active {
 	justify-content: center;
 	align-items: center;
 	z-index: 9999;
+}
+
+
+#countdown-canvas {
+	position: absolute !important;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    width: 40vw;
+	opacity: 0.9;
+  }
+
+  /* Your average text styling */
+#text1, #text2 {
+	position: absolute;
+	width: 20vw;
+	display: inline-block;
+	
+	font-family: 'Raleway', sans-serif;
+	font-size: 30pt;
+	
+	text-align: center;
+	
+	user-select: none;
 }

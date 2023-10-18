@@ -213,9 +213,8 @@ function WheelSketch(_p5) {
             player.loadVideoById(data_list[currentRound].id);
             player.playVideo();
           }
-          var canv = document.getElementById("countdown-canvas");
-          const circulation = new Circulation(canv, 30000);
-          circulation.startInterval(100);
+          const morphingText = new MorphingText(30);
+          morphingText.animate();
           const vp = document.querySelector("#video");
           vp.style.display = "block";
     
@@ -247,7 +246,18 @@ function WheelSketch(_p5) {
           );
         }
       };
+      _p5.reloadData = function (index) {
+        let _data = data_list[index].data;
+        if (!_data.length) {
+          _data = [""];
+        }
+        data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
+        useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
     
+        counterMax = data.length * height_str;
+        counter = counterInitial;
+        _p5.triggerSelectItem();
+      };
     function getTotalRowsForDurationAndSpeed(videoDurationSec = 22, speedItemsPerSec = 3) {
         return speedItemsPerSec * videoDurationSec;
     }

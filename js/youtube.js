@@ -53,82 +53,79 @@ function loopVideo() {
   }
 }
 
-class Circulation {
-	constructor(canvas, timer) {
-		this.canvas = canvas;
-		this.ctx = canvas.getContext('2d');
-		this.timer = timer;
-		this.timeRemaining = 0;
-		this.startTime = new Date();
-		this.COUNTDOWN =  timer; // 
-		this.arc = 0;
-		this.intervalId = null; // Store the interval ID
+
+
+class MorphingText {
+	constructor(number) {
+	  this.elts = {
+		text1: document.getElementById("text1"),
+		text2: document.getElementById("text2")
+	  };
+  
+	  this.current = number +1;
+	  this.morphTime = 0.75;
+	  this.cooldownTime = 0.25;
+	  this.time = new Date();
+	  this.morph = 0;
+	  this.cooldown = this.cooldownTime;
 	}
-	
-	clearScreen() {
-		this.ctx.beginPath();
-		//this.ctx.fillStyle = 'rgb(0, 0, 0)';
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		//this.ctx.fill();
+  
+	doMorph() {
+	  this.morph -= this.cooldown;
+	  this.cooldown = 0;
+  
+	  let fraction = this.morph / this.morphTime;
+  
+	  if (fraction > 1) {
+		this.cooldown = this.cooldownTime;
+		fraction = 1;
+	  }
+  
+	  this.setMorph(fraction);
 	}
-	
-	moveCircle() {
-		var now = new Date();
-		this.timeElapsed = (this.startTime - now) * -1;
-		var percentageElapsed = this.timeElapsed / this.COUNTDOWN;
-		
-		if (percentageElapsed < 1) {
-			this.arc = Math.PI * 2 - (Math.PI * 2 * percentageElapsed);
+  
+	setMorph(fraction) {
+	  this.elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+	  this.elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+  
+	  fraction = 1 - fraction;
+	  this.elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+	  this.elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+	  this.elts.text1.textContent = this.current;
+	  this.elts.text2.textContent = this.current - 1;
+	}
+  
+	doCooldown() {
+	  this.morph = 0;
+  
+	  this.elts.text2.style.filter = "";
+	  this.elts.text2.style.opacity = "100%";
+  
+	  this.elts.text1.style.filter = "";
+	  this.elts.text1.style.opacity = "0%";
+	}
+  
+	animate() {
+	  requestAnimationFrame(() => this.animate());
+  
+	  let newTime = new Date();
+	  let shouldIncrementIndex = this.cooldown > 0;
+	  let dt = (newTime - this.time) / 1000;
+	  this.time = newTime;
+  
+	  this.cooldown -= dt;
+  
+	  if (this.cooldown <= 0) {
+		if (shouldIncrementIndex) {
+		  this.current--;
 		}
-	}
-	
-	drawCircle() {
-		this.ctx.beginPath();
-		this.ctx.arc(this.canvas.width / 2, this.canvas.height / 2, this.canvas.height / 3, 0, this.arc, false);
-		this.ctx.lineWidth = 15;
-		this.ctx.strokeStyle = 'rgb(255, 255, 255)';
-		this.ctx.stroke();
-	}
-	
-	updateText() {
-		var now = new Date();
-		var timeElapsed = (this.startTime - now) * -1;
-		
-		if (timeElapsed >= this.COUNTDOWN) {
-			this.timeRemaining = '0:00';
-			clearInterval(this.intervalId);
-			} else {
-			if (this.COUNTDOWN - timeElapsed < 5000) {
-				this.timeRemaining = moment.utc(this.COUNTDOWN - timeElapsed).format('s.S');
-				} else {
-				this.timeRemaining = moment.utc(this.COUNTDOWN - timeElapsed).format('s');
-			}
-			
+		if (this.current < 1) {
+		  return;
 		}
+		this.doMorph();
+	  } else {
+		this.doCooldown();
+	  }
 	}
-	
-	drawText() {
-		this.ctx.font = (this.canvas.height / 4) + 'px Arial';
-		this.ctx.textAlign = 'center';
-		this.ctx.textBaseline = 'middle';
-		this.ctx.fillStyle = 'rgb(255, 255, 255)';
-		this.ctx.fillText(this.timeRemaining, this.canvas.width / 2, this.canvas.height / 2);
-	}
-	
-	render() {
-		this.clearScreen();
-		this.moveCircle();
-		this.drawCircle();
-		this.updateText();
-		this.drawText();
-	}
-	
-	
-	startInterval(intervalTime) {
-		this.intervalId = setInterval(() => {this.render();}, intervalTime);
-	}
-	
-	stopInterval() {
-		clearInterval(this.intervalId);
-	}
-}
+  }

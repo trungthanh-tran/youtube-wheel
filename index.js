@@ -205,27 +205,6 @@ p5Wheel.onStopWheel = () => {
 };
 
 let deltas = [];
-setInterval(() => {
-    if (currentDataSet === 'meetings' || currentDataSet === 'custom' || currentDataSet === 'pvp') {
-        p5ImagePlayer.setIsAnimated(true);
-
-        let max = deltas.reduce(function(a, b) {
-            return Math.max(a, b);
-        }, 0);
-        deltas = [];
-
-        p5ImagePlayer.moveAnimation(max);
-    }
-    else {
-        p5ImagePlayer.setIsAnimated(false);
-    }
-}, 300);
-
-p5Wheel.onMoveWheel = (delta) => {
-    if (currentDataSet === 'meetings' || currentDataSet === 'custom' || currentDataSet === 'pvp') {
-        deltas.push(Math.abs(delta));
-    }
-};
 
 p5Wheel.onSelectItem = function(data, selectedKey) {
     selectedText = data[selectedKey] ? data[selectedKey].title || data[selectedKey] : '';
