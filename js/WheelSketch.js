@@ -103,15 +103,6 @@ function WheelSketch(_p5) {
         circleCenterY = circleTop + radius;
         counter = counterInitial;
 
-        document.addEventListener("visibilitychange", function() {
-            if (document.visibilityState === 'visible') {
-            } else {
-                video.setVolume(0);
-            }
-        });
-        // _p5.frameRate(30);
-
-
         button = document.querySelector("#play-btn");
         button.addEventListener("click", function (event) {
           overlay = document.querySelector("#overlay-start");
