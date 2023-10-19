@@ -5,13 +5,6 @@ let currentDataSet = 'inventory',
 ;
 const
     isDebug = new URLSearchParams(document.location.search).get('debug'),
-    editDialog = document.getElementById('dialog-edit'),
-    editButton = document.getElementById('btn-edit'),
-    editConfirmButton = editDialog.getElementsByClassName('apply')[0],
-    editOptions = editDialog.getElementsByClassName('options')[0],
-    editPresets = editDialog.getElementsByClassName('presets')[0],
-    editHeader = editDialog.getElementsByClassName('header')[0],
-    presetManager = new PresetManager,
     itemsPresets = [
         new PresetGroup('Уровень 1'),
         new PresetItems("Голова", subSets.items["Уровень 1"]["Голова"]),
@@ -124,81 +117,19 @@ const
     }
 ;
 
-editButton.addEventListener('click', function () {
-    if (currentDataSet === 'custom') {
-        p5Wheel.mouseDragEnable(false);
-        customDialog.style.display = 'block';
-
-        return;
-    }
-
-    editDialog.style.display = 'block';
-    p5Wheel.mouseDragEnable(false);
-
-    editPresets.innerHTML = '';
-    editPresets.append(...presetManager.getNodes(currentDataSet));
-    presetManager.renderOptions(editedDataSets[currentDataSet], currentDataSet);
-});
-editConfirmButton.addEventListener('click', function () {
-    editDialog.style.display = 'none';
-    p5Wheel.mouseDragEnable();
-
-    p5Wheel.setData(editedDataToArray());
-    //
-    // if (currentDataSet === 'items') {
-    //     itemsEditedDataSet = editedDataSets[currentDataSet];
-    // }
-});
 
 const p5Wheel = new p5(WheelSketch);
 
-const DMCAPlaylistSwitcher = new CheckboxStateable('with-dmca', 'video-with-dmca-protection', CheckboxStateable.MODE_MERGE);
-DMCAPlaylistSwitcher
-    .setValues(videosProtected, videosFree)
-    .onSwitch((value) => {
-        p5Wheel.setVideo(new Video(value));
-    })
-;
-
 p5Wheel.onAfterSetup = function () {
-    p5Wheel.setVideo(new Video(DMCAPlaylistSwitcher.value));
 };
 
 const image = document.querySelector('#item-image img');
 let currentUrl = window.location.href;
 currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
 
-const p5ImagePlayer = new p5(GifPlayer);
 
 p5Wheel.onStartWheel = (durationSec) => {
-    if (currentDataSet === 'meetings' || currentDataSet === 'custom' || currentDataSet === 'pvp') {
-        p5ImagePlayer.onStartWheel(durationSec);
-    }
 };
-
-let selectedText = '', lastSelectedText = '';
-const
-    lastWheelTextEl = document.getElementById('last-selected-text'),
-    onStopLastTextHandler = () => {
-        lastSelectedText = selectedText;
-        lastWheelTextEl.innerHTML = `Выпало в прошлый раз: «${lastSelectedText}»`;
-        document.getElementById('copy-last-selected').setAttribute('style', 'visibility: visible')
-    },
-    lastWheelBtnEl = document.getElementById('copy-last-selected'),
-    lastWheelLinkHandler = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        navigator.clipboard.writeText(lastSelectedText.replace(/["',:]/g, ''))
-        /*.then(() => {
-            // clipboard successfully set
-        }, () => {
-            // clipboard write failed
-            console.error("Failed to set clipboard: ", selectedText)
-        });*/
-    }
-;
-lastWheelBtnEl.addEventListener('click', lastWheelLinkHandler);
 
 p5Wheel.onStopWheel = () => {
     onStopLastTextHandler();
@@ -226,62 +157,6 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     }
 };
 
-const customDialog = document.getElementById('custom-list'),
-    customTextarea = customDialog.getElementsByTagName('textarea')[0],
-    customButton = customDialog.getElementsByTagName('button')[0],
-    saveCustomData = function (stringData) {
-        const url = new URL(window.location);
-
-        document.title = 'Колесо WhoPG2 (' + stringData.substring(0, 30) + '…)';
-
-        url.search = new URLSearchParams({custom: stringData});
-        // console.log(url.toString());
-        history.pushState({}, '', url.toString());
-    },
-    loadCustomData = function () {
-        const urlSearchParams = new URL(window.location).searchParams,
-            list = urlSearchParams.get('custom')
-        ;
-
-        return list;
-    },
-    applyCustomData = function (customData) {
-        const customRadio = document.querySelector('[name="list"][value="custom"]');
-        customTextarea.value = customData;
-
-        customRadio.dispatchEvent(new Event('click'));
-        customButton.dispatchEvent(new Event('click'));
-        customRadio.setAttribute('checked', true);
-    },
-    windowPopStateHandler = function (event) {
-        applyCustomData(loadCustomData());
-    },
-    customSubmitHandler = function () {
-        customDialog.style.display = 'none';
-
-        p5Wheel.setData(customTextarea.value.split('\n'));
-        p5Wheel.mouseDragEnable();
-
-        saveCustomData(customTextarea.value);
-    }
-;
-
-customButton.addEventListener('click', customSubmitHandler);
-
-let radios = document.querySelectorAll('[name="list"]');
-for(let i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('click', radioClickHandler);
-
-    // Выбираем начальный вариант при загрузке страницы
-    if (radios[i].hasAttribute('checked')) {
-        radios[i].dispatchEvent(new Event('click'));
-    }
-}
-
-const customData = loadCustomData();
-if (customData) {
-    applyCustomData(customData);
-}
 
 p5Wheel.mouseDragEnable();
 p5Wheel.setData(dataSets['coin'], 0);
