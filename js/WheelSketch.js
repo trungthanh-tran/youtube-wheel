@@ -213,8 +213,15 @@ function WheelSketch(_p5) {
             player.loadVideoById(data_list[currentRound].id);
             player.playVideo();
           }
-          const morphingText = new MorphingText(30);
-          morphingText.animate();
+          const countdownContainer = document.getElementById('countdown-canvas');
+
+            // Create a loop to generate the countdown elements
+            for (let i = 30; i >= 0; i--) {
+                const countdownElement = document.createElement('div');
+                countdownElement.className = 'n';
+                countdownElement.textContent = i;
+                countdownContainer.appendChild(countdownElement);
+            }
           const vp = document.querySelector("#video");
           vp.style.display = "block";
     
