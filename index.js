@@ -131,9 +131,7 @@ currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
 p5Wheel.onStartWheel = (durationSec) => {
 };
 
-p5Wheel.onStopWheel = () => {
-    onStopLastTextHandler();
-};
+p5Wheel.onStopWheel = () => {};
 
 let deltas = [];
 

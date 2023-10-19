@@ -80,7 +80,6 @@ function WheelSketch(_p5) {
 
     _p5.preload = () => {
         fontRegular = _p5.loadFont('./fonts/Oswald-Regular.ttf');
-        // fontRegular = _p5.loadFont('./fonts/Clickuper/Clickuper.ttf');
     };
 
     _p5.onStartWheel = (durationSec) => {};
@@ -106,7 +105,6 @@ function WheelSketch(_p5) {
 
         document.addEventListener("visibilitychange", function() {
             if (document.visibilityState === 'visible') {
-                video.setVolume(video.volume);
             } else {
                 video.setVolume(0);
             }
