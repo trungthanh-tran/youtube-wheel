@@ -133,7 +133,7 @@ function WheelSketch(_p5) {
     }
     _p5.onNextRound = function () {
         var canv = document.getElementById("countdown-canvas");
-        canv.style.opacity = "0";
+        canv.style.display = "none";
     
         //leaderClass.renderLeaderShip();
     
@@ -212,6 +212,7 @@ function WheelSketch(_p5) {
             player.playVideo();
           }
           const countdownContainer = document.getElementById('countdown-canvas');
+          countdownContainer.style.display = "block";
 
             // Create a loop to generate the countdown elements
             for (let i = 30; i >= 0; i--) {
@@ -220,9 +221,6 @@ function WheelSketch(_p5) {
                 countdownElement.textContent = i;
                 countdownContainer.appendChild(countdownElement);
             }
-          const vp = document.querySelector("#video");
-          vp.style.display = "block";
-    
           array_shuffle(data);
           _p5.triggerSelectItem();
     
@@ -351,11 +349,7 @@ function WheelSketch(_p5) {
             if (y < _p5.textAscent() / 2
                 && y > -_p5.textAscent()
             ) {
-                if (!isCounterAnimation) {
-                    _p5.fill(212, 160, 0);
-                }
-
-                // _p5.noStroke();
+                _p5.fill(212, 160, 0);
 
                 if (key !== selectedKey) {
                     selectedKey = key;
