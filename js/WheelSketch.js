@@ -227,8 +227,6 @@ function WheelSketch(_p5) {
               // background.style.display = null;
               //button.elt.style.visibility = null;
               videoContainer.style.animation = null;
-              // videoContainer.classList = '';
-              background.classList = "image-grid";
               animCounterStop();
               _p5.onNextRound();
               alignToRow(() => {
