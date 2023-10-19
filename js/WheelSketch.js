@@ -218,7 +218,6 @@ function WheelSketch(_p5) {
           videoContainer.style.animation = `play-video ${durationSec}s`;
           const overlaystart = document.querySelector("#overlay-start");
           overlaystart.style.visibility = "hidden";
-          background.classList = "image-grid animation-paused";
           animate(
             tickCounter,
             counter,
