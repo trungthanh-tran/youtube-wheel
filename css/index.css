@@ -3,11 +3,14 @@
 @font-face {
 	font-family: "Oswald-Regular";
 	src: url('../fonts/Oswald-Regular.ttf');
+	font-display: swap;
+
 }
 
 @font-face {
 	font-family: "Oswald-Light";
 	src: url('../fonts/Oswald-Light.ttf');
+	font-display: swap;
 }
 #canvas2 {
 	position: absolute;

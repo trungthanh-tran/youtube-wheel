@@ -13,6 +13,7 @@ function onYouTubeIframeAPIReady() {
     width: 'auto',
     videoId: '',
     playerVars: {
+      'loading': 'lazy',
       'version': 3,
       'controls': 0,
       'start': 0,
