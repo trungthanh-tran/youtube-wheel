@@ -8,15 +8,10 @@ function WheelSketch(_p5) {
         hasNonprintableChars = string => /[^\x00-\x7F\u0410-\u044FЁё]/.test(string),
         startAnimationHandler = function (startAnimation) {
             startAnimation();
-        },
-        fpsCounter = new FPSCounter(700, 450, 100, 50, _p5)
+        }
     ;
     let data = [],
         data_list = [],
-        videosList = [
-            'videos/14278244937910.webm',
-            'videos/14686000376951.webm',
-        ],
         counter,
         counterDelta = 0,
         counterMax,
@@ -284,10 +279,6 @@ function WheelSketch(_p5) {
 
     _p5.draw = () => {
         _p5.clear();
-        if (isDebug) {
-            fpsCounter.draw();
-        }
-
         if (useDefaultFont) {
             _p5.textFont('Georgia');
             _p5.textAlign(_p5.LEFT, _p5.BOTTOM);
