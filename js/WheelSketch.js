@@ -146,10 +146,10 @@ function WheelSketch(_p5) {
             </defs>
             <text x="0" y="-30vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the next round</text>
             <g filter="url(#goo)">
-                <text x="0" y="10vh">3</text>
-                <text x="0" y="10vh">2</text>
-                <text x="0" y="10vh">1</text>
-                <text x="0" y="10vh">GO</text>
+                <text x="0" y="-10vh">3</text>
+                <text x="0" y="-10vh">2</text>
+                <text x="0" y="-10vh">1</text>
+                <text x="0" y="-10vh">GO</text>
             </g>
         `;
     
@@ -164,7 +164,15 @@ function WheelSketch(_p5) {
     
         currentRound = currentRound + 1;
         if (currentRound < data_list.length) {
-            animateAndRemoveOverlay();
+          // Remove the overlay and SVG after a timeout (5 seconds in this example)
+          setTimeout(function () {
+            overlay.style.display = "none";
+            overlay.remove();
+            svg.remove();
+            canv.style.opacity = "1";
+            _p5.reloadData(currentRound);
+            _p5.playRound();
+          }, 4000);
         } else {
           var leaderboard = document.getElementById("leaderboard");
           leaderboard.style.opacity = "1";
@@ -176,12 +184,13 @@ function WheelSketch(_p5) {
         }
     };
     _p5.playRound = () => {
-        const videoContainer = document.getElementById("filter-shadow");
+        const background = document.querySelector(".image-grid"),
+          videoContainer = document.getElementById("filter-shadow");
         if (!isCounterAnimation) {
           const durationSec = 30,
             totalRows = getTotalRowsForDurationAndSpeed(
               durationSec,
-              Math.floor(Math.random() * (8 - 2)) + 2
+              Math.floor(Math.random() * (6 - 2)) + 2
             );
           _p5.onStartWheel(durationSec);
           if (player) {
@@ -332,37 +341,6 @@ function WheelSketch(_p5) {
             _p5.pop()
         }
     };
-
-    function animateAndRemoveOverlay() {
-        const overlay = document.getElementById('overlay'); // Replace 'overlay' with the actual ID of your overlay element
-        const svg = document.getElementById('my-svg'); // Replace 'svg' with the actual ID of your SVG element
-        const canv = document.getElementById('countdown-canvas'); // Replace 'canv' with the actual ID of your canvas element
-      
-        let startTimestamp;
-      
-        function step(timestamp) {
-          if (!startTimestamp) {
-            startTimestamp = timestamp;
-          }
-          const progress = timestamp - startTimestamp;
-      
-          // Check if 4 seconds (4000 ms) have passed
-          if (progress < 4000) {
-            // Continue the animation until 4 seconds have passed
-            requestAnimationFrame(step);
-          } else {
-            // 4 seconds have passed, perform your actions
-            overlay.style.display = "none";
-            overlay.remove();
-            svg.remove();
-            canv.style.opacity = "1";
-            _p5.reloadData(currentRound);
-            _p5.playRound();
-          }
-        }
-      
-        requestAnimationFrame(step);
-      }
 
     function vect(current, from, to, overflow = true) {
         const offset = -3, // выравниваем центральный элемент списка вертикально по центру
