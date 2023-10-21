@@ -28,6 +28,8 @@ p5Wheel.onSelectItem = function(data, selectedKey) {
     }
 };
 
+const tapmeButton = document.getElementById('item-image');
+tapmeButton.addEventListener('click', function() {p5Wheel.guessIt();});
 
 p5Wheel.mouseDragEnable();
 p5Wheel.setData(dataSets['coin'], 0);

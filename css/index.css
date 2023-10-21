@@ -1566,7 +1566,6 @@ div > #copy-last-selected:active {
 	align-items: center;
   }
   g > text {
-
 	text-anchor: middle;
 	font-size: 400px;
 	font-family: Overpass Mono, monospace;
