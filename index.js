@@ -5,7 +5,6 @@ p5Wheel.onAfterSetup = function () {
 const image = document.querySelector('#item-image img');
 let currentUrl = window.location.href;
 currentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
- 
 
 
 p5Wheel.onStartWheel = (durationSec) => {

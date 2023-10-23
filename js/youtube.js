@@ -31,10 +31,21 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(e) {
-  callback.playRound();
-  e.target.playVideo();
-  player.setVolume(20);
-  setTimeout(updateDisplay.bind(this, e), 1000);
+  var preloader = document.getElementById("preloader");
+  preloader.classList.add("loaded");
+  setTimeout(function() {
+    // Apply the "fadeOut" effect
+    preloader.style.transition = "opacity 0.5s"; // Define a transition for fading
+    preloader.style.opacity = 0; // Set opacity to 0 for fading
+  
+    // Optionally, hide the element when the fade-out is complete
+    preloader.addEventListener("transitionend", function() {
+      preloader.style.display = "none";
+    });
+  }, 800);
+  //callback.playRound();
+  //e.target.playVideo();
+  //player.setVolume(20);
 }
 
 function loadVideo(videoId) {

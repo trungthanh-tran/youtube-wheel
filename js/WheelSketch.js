@@ -102,10 +102,11 @@ function WheelSketch(_p5) {
     counter = counterInitial;
 
     button = document.querySelector("#play-btn");
+    loadYoutubeIframe(_p5);
     button.addEventListener("click", function (event) {
-      loadYoutubeIframe(_p5);
       overlay = document.querySelector("#overlay-start");
       overlay.style.display = "none";
+      _p5.playRound();
       return false;
     });
     _p5.onAfterSetup();
