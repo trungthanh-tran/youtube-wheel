@@ -103,7 +103,7 @@ function WheelSketch(_p5) {
     counter = counterInitial;
 
     button = document.querySelector("#play-btn");
-    let file = "http://backend.spincoin.xyz/api/rounds?populate[events][populate]=*"
+    let file = "https://backend.spincoin.xyz/api/rounds?populate[events][populate]=*"
     fetch (file)
     .then(x => x.text())
     .then(y => {
