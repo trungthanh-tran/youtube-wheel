@@ -13,8 +13,7 @@ function WheelSketch(_p5) {
   let data = [],
     messages = [], // Display keypress
     messageDisplayDuration = 1000, // display time
-    fallingSpeed = 1,
-    wheelTextSize = 23,
+    wheelTextSize = 20,
     lastKeyPressTime = 0,
     data_list = [],
     counter,
@@ -30,9 +29,12 @@ function WheelSketch(_p5) {
     scaleFactor,
     fontRegular,
     mouseDragEnable = true,
+    loadedData = false;
     touchYPrev = 0,
     useDefaultFont = false,
-    currentRound = 0;
+    currentRound = 0,
+    question_X = 0,
+    currentQuestion = "";
   _p5.setData = function (_data) {
     // console.log(_data);
     if (!_data.length) {
@@ -56,7 +58,6 @@ function WheelSketch(_p5) {
     }
     data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
     useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
-
     counterMax = data.length * height_str;
     counter = counterInitial;
     _p5.triggerSelectItem();
@@ -102,11 +103,36 @@ function WheelSketch(_p5) {
     counter = counterInitial;
 
     button = document.querySelector("#play-btn");
-    loadYoutubeIframe(_p5);
+    let file = "http://backend.spincoin.xyz/api/rounds?populate[events][populate]=*"
+    fetch (file)
+    .then(x => x.text())
+    .then(y => {
+      let dataLoaded = JSON.parse(y);
+      let dataWheel = dataLoaded.data[0].attributes.events;
+      let roundData = []
+      for (const oneRound of dataWheel) {
+        let oneRoundData = {}
+        let parseID = oneRound.youtube_id.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/);
+        oneRoundData.id=parseID[5];
+        oneRoundData.question = oneRound.question;
+        oneRoundData.data = oneRound.answers;
+        roundData.push(oneRoundData);
+      }
+      _p5.setData(roundData, 0);
+      loadYoutubeIframe(_p5);
+      loadedData = true;
+      currentQuestion = data_list[0].question;
+    });
+    
     button.addEventListener("click", function (event) {
-      overlay = document.querySelector("#overlay-start");
-      overlay.style.display = "none";
-      _p5.playRound();
+      if (loadedData) {
+        overlay = document.querySelector("#overlay-start");
+        overlay.style.display = "none";
+        _p5.playRound();
+      } else {
+
+      }
+      
       return false;
     });
     _p5.onAfterSetup();
@@ -117,6 +143,7 @@ function WheelSketch(_p5) {
     canv.style.display = "none";
     currentRound = currentRound + 1;
     if (currentRound < data_list.length ) {
+      currentQuestion = data_list[currentRound].question;
       var overlay = document.createElement("div");
       overlay.id = "overlay";
       document.body.appendChild(overlay);
@@ -172,6 +199,7 @@ function WheelSketch(_p5) {
       playButton.style.display = "none";
       leaderboard.style.display = "block";
       leaderboard.style.zIndex = 99999;
+      currentQuestion = "";
     }
   };
   _p5.playRound = () => {
@@ -180,7 +208,7 @@ function WheelSketch(_p5) {
       const durationSec = 30,
         totalRows = getTotalRowsForDurationAndSpeed(
           durationSec,
-          Math.floor(Math.random() * (6 - 2)) + 2
+          Math.floor(Math.random() * (4 - 2)) + 2
         );
       _p5.onStartWheel(durationSec);
       if (player) {
@@ -289,6 +317,9 @@ function WheelSketch(_p5) {
   };
 
   _p5.draw = () => {
+    if (!loadedData) {
+      return;
+    }
     _p5.clear();
     if (useDefaultFont) {
       _p5.textFont("Georgia");
@@ -316,7 +347,6 @@ function WheelSketch(_p5) {
 
       // Display the message falling down with reduced opacity
       _p5.fill(0, 255, 0, opacity);
-
       _p5.textSize(50);
       _p5.text(message.key, 50, y);
       _p5.textSize(wheelTextSize);
@@ -340,7 +370,15 @@ function WheelSketch(_p5) {
         counter = counterMax;
       }
     }
-
+    if (currentQuestion) {
+      _p5.textSize(25);
+      _p5.text(currentQuestion, question_X, 50);
+      _p5.textSize(wheelTextSize);    
+      question_X += 1;
+      if (question_X > _p5.width) {
+        question_X = -_p5.textWidth(currentQuestion); // Reset to the left of the canvas
+      }
+    }
     let key, i;
     for (i = -data.length - 2; i < itemsPerScreen + 1; i++) {
       let { x, y } = vect(
@@ -374,7 +412,6 @@ function WheelSketch(_p5) {
 
         if (key !== selectedKey) {
           selectedKey = key;
-
           _p5.onSelectItem(data, selectedKey);
         }
       }
