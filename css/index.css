@@ -33,9 +33,9 @@ button:disabled{opacity:.6;color:#fff;background-color:#007bff;border-color:#007
 .image-grid-item-container{overflow:visible;margin:80px}
 .image-grid-item{transform:scale(1.4)}
 }
-#item-image{position:absolute;width:40%;height:100%;display:flex;align-items:center;user-select:none;left:-60px}
+#item-image{position:absolute;width:40%;height:100%;display:flex;align-items:center;user-select:none;}
 #item-image .arc{position:absolute;background:url(../images/arc.png) no-repeat 70px center;height:100%;width:200px}
-#item-image img{width:100px;filter:drop-shadow(0 0 2px #000)}
+#item-image img{width:100px;height:100px;object-fit:fill;filter:drop-shadow(0 0 2px #000)}
 #btn-edit.hide{display:none}
 input[name=implants]+label,input[name=meetings]+label{color:#aaa}
 #meetings0+label{color:#97f6d0}
