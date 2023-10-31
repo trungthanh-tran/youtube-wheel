@@ -124,7 +124,7 @@ function WheelSketch(_p5) {
         roundData.push(oneRoundData);
       }
       theme = atrribute.theme;
-      let getTheme =  endpoint + "/api/themes/?populate=*&name=" + theme;
+      let getTheme =  endpoint + "/api/themes?populate=*&filters[name][$eq]=" + theme;
       fetch(getTheme).
       then(xTheme => xTheme.text()).
       then(yTheme => {
