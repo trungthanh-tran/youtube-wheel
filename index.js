@@ -12,13 +12,9 @@ p5Wheel.onStopWheel = () => {};
 
 let deltas = [];
 
-p5Wheel.onSelectItem = function(data, selectedKey) {
-    selectedText = data[selectedKey] ? data[selectedKey].title || data[selectedKey] : '';
-    let url = "";
-    if (data[selectedKey] && typeof data[selectedKey].image === 'string') {
-        url = data[selectedKey].image;
-    }
-    if (image.src !== url) {
+p5Wheel.onSelectItem = function(theme_images, selectedKey) {
+    let url = theme_images[Math.floor(Math.random()*theme_images.length)];
+    if (url && image.src !== url) {
         image.src = url;
     }
 };

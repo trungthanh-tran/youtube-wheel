@@ -1,5 +1,6 @@
 function WheelSketch(_p5) {
   const radius = 203,
+    endpoint = "https://backend.spincoin.xyz",
     diameter = radius * 2,
     itemsPerScreen = 7,
     height_str = diameter / itemsPerScreen,
@@ -16,10 +17,12 @@ function WheelSketch(_p5) {
     wheelTextSize = 20,
     lastKeyPressTime = 0,
     data_list = [],
+    theme_images = [],
     counter,
     counterDelta = 0,
     counterMax,
     circleTop,
+    theme,
     circleCenterY,
     animationsMap = new Map(),
     selectedKey,
@@ -72,9 +75,9 @@ function WheelSketch(_p5) {
 
   _p5.onAfterSetup = function () {};
 
-  _p5.onSelectItem = function (items, selectedKey) {};
+  _p5.onSelectItem = function (theme_images, selectedKey) {};
   _p5.triggerSelectItem = function () {
-    _p5.onSelectItem(data, selectedKey);
+    _p5.onSelectItem(theme_images, selectedKey);
   };
 
   _p5.preload = () => {
@@ -103,12 +106,14 @@ function WheelSketch(_p5) {
     counter = counterInitial;
 
     button = document.querySelector("#play-btn");
-    let file = "https://backend.spincoin.xyz/api/rounds?populate[events][populate]=*"
+    //let file = "https://backend.spincoin.xyz/api/rounds?populate[events][populate]=*"
+    let file = endpoint + "/api/rounds?populate[events][populate]=*"
     fetch (file)
     .then(x => x.text())
     .then(y => {
       let dataLoaded = JSON.parse(y);
-      let dataWheel = dataLoaded.data[0].attributes.events;
+      let atrribute = dataLoaded.data[0].attributes;
+      let dataWheel = atrribute.events;
       let roundData = []
       for (const oneRound of dataWheel) {
         let oneRoundData = {}
@@ -118,6 +123,32 @@ function WheelSketch(_p5) {
         oneRoundData.data = oneRound.answers;
         roundData.push(oneRoundData);
       }
+      theme = atrribute.theme;
+      let getTheme =  endpoint + "/api/themes/?populate=*&name=" + theme;
+      fetch(getTheme).
+      then(xTheme => xTheme.text()).
+      then(yTheme => {
+        let theme = JSON.parse(yTheme);
+        if (theme &&  theme.data[0] && theme.data[0].attributes && theme.data[0].attributes.list && theme.data[0].attributes.list.data) {
+          for (const themeImage of theme.data[0].attributes.list.data) {
+            if (themeImage.attributes.url) {
+              theme_images.push(endpoint + themeImage.attributes.url);
+            }
+          }
+        }
+        if (!theme_images || theme_images.length < 1) {
+          console.log("Cannot load theme. Use default");
+          theme_images.push("/images/items/001.png");
+          theme_images.push("/images/items/002.png");
+          theme_images.push("/images/items/003.png");
+          theme_images.push("/images/items/004.png");
+          theme_images.push("/images/items/005.png");
+          theme_images.push("/images/items/006.png");
+          theme_images.push("/images/items/007.png");
+        }
+
+      });
+      
       _p5.setData(roundData, 0);
       loadYoutubeIframe(_p5);
       loadedData = true;
@@ -412,7 +443,7 @@ function WheelSketch(_p5) {
 
         if (key !== selectedKey) {
           selectedKey = key;
-          _p5.onSelectItem(data, selectedKey);
+          _p5.onSelectItem(theme_images, selectedKey);
         }
       }
 
