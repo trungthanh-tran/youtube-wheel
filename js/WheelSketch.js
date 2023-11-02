@@ -1,7 +1,7 @@
 function WheelSketch(_p5) {
   const radius = 203,
-    //endpoint = "https://backend.spincoin.xyz",
-    endpoint = "http://localhost:1338",
+    endpoint = "https://airdropbackend.spincoin.xyz",
+    //endpoint = "http://localhost:1338",
     diameter = radius * 2,
     itemsPerScreen = 10,
     height_str = diameter / itemsPerScreen,
