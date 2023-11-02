@@ -203,12 +203,12 @@ function WheelSketch(_p5) {
                       <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
                   </filter>
               </defs>
-              <text x="0" y="-30vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the next round</text>
+              <text x="0" y="-35vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the next round</text>
               <g filter="url(#goo)">
-                  <text x="0" y="10vh">3</text>
-                  <text x="0" y="10vh">2</text>
-                  <text x="0" y="10vh">1</text>
-                  <text x="0" y="10vh">GO</text>
+                  <text x="0" y="15vh">3</text>
+                  <text x="0" y="15vh">2</text>
+                  <text x="0" y="15vh">1</text>
+                  <text x="0" y="15vh">GO</text>
               </g>
           `;
   
