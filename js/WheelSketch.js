@@ -624,7 +624,7 @@ function WheelSketch(_p5) {
     let tick = [];
     let number_prize_per_round = Math.floor(number_of_prize/number_of_round);
     let remaining = number_of_prize - (number_prize_per_round * number_of_round);
-    for (let number = 0; number < number_prize_per_round; number ++) {
+    for (let number = 0; number < number_of_round; number ++) {
       if (remaining > 0) {
         let current = getRandomNonDuplicateElements(number_of_period, number_prize_per_round + 1);
         tick.push(current);
