@@ -1,8 +1,9 @@
 function WheelSketch(_p5) {
   const radius = 203,
-    endpoint = "https://backend.spincoin.xyz",
+    //endpoint = "https://backend.spincoin.xyz",
+    endpoint = "http://localhost:1338",
     diameter = radius * 2,
-    itemsPerScreen = 7,
+    itemsPerScreen = 10,
     height_str = diameter / itemsPerScreen,
     counterInitial = 0,
     centerX = 10,
@@ -16,8 +17,12 @@ function WheelSketch(_p5) {
     messageDisplayDuration = 1000, // display time
     wheelTextSize = 20,
     lastKeyPressTime = 0,
+    useStaticList = true,
     data_list = [],
+    prize_collection = [],
+    awarded_collection = [],
     theme_images = [],
+    static_list = [],
     counter,
     counterDelta = 0,
     counterMax,
@@ -38,28 +43,18 @@ function WheelSketch(_p5) {
     currentRound = 0,
     question_X = 0,
     currentQuestion = "";
-  _p5.setData = function (_data) {
-    // console.log(_data);
-    if (!_data.length) {
-      _data = [""];
-    }
-    data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
-
-    // If text contains unsupported by external Oswald-Regular characters
-    useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
-
-    counterMax = data.length * height_str;
-    counter = counterInitial;
-    _p5.triggerSelectItem();
-  };
 
   _p5.setData = function (_data_list, index = 0) {
     data_list = _data_list;
-    let _data = _data_list[index].data;
-    if (!_data.length) {
-      _data = [""];
+    if (useStaticList) {
+      data = static_list;
+    } else {
+      let _data = _data_list[index].data;
+      if (!_data.length) {
+        _data = [""];
+      }
+      data = _data.map((v) => (typeof v === "object" ? v : { title: v, display_title: v }));
     }
-    data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
     useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
     counterMax = data.length * height_str;
     counter = counterInitial;
@@ -114,6 +109,8 @@ function WheelSketch(_p5) {
       let dataLoaded = JSON.parse(y);
       let atrribute = dataLoaded.data[0].attributes;
       let dataWheel = atrribute.events;
+      useStaticList = atrribute.static_list;
+
       let roundData = []
       for (const oneRound of dataWheel) {
         let oneRoundData = {}
@@ -123,6 +120,7 @@ function WheelSketch(_p5) {
         oneRoundData.data = oneRound.answers;
         roundData.push(oneRoundData);
       }
+      prize_collection = getTickPrize(dataWheel.length, atrribute.prize_number);
       theme = atrribute.theme;
       let getTheme =  endpoint + "/api/themes?populate=*&filters[name][$eq]=" + theme;
       fetch(getTheme).
@@ -146,13 +144,22 @@ function WheelSketch(_p5) {
           theme_images.push("/images/items/006.png");
           theme_images.push("/images/items/007.png");
         }
-
       });
-      
-      _p5.setData(roundData, 0);
-      loadYoutubeIframe(_p5);
-      loadedData = true;
-      currentQuestion = data_list[0].question;
+      let drop_users = endpoint + "/api/drop-lists";
+      fetch(drop_users).
+      then(xTheme => xTheme.text()).
+      then(yTheme => {
+        let theme = JSON.parse(yTheme);
+        if (theme &&  theme.data[0] && theme.data[0].attributes && theme.data[0].attributes.drop_users) {
+          let users = theme.data[0].attributes.drop_users;
+          const lines = users.split('\n');
+          static_list= lines.map(line => ({ title: line, display_title: truncateHexNumber(line) }));
+        }
+        _p5.setData(roundData, 0);
+        loadYoutubeIframe(_p5);
+        loadedData = true;
+        currentQuestion = data_list[0].question;
+      });
     });
     
     button.addEventListener("click", function (event) {
@@ -213,7 +220,7 @@ function WheelSketch(_p5) {
   
       // Show the overlay
       overlay.style.display = "flex";
-  
+      static_list = static_list.filter(item => !awarded_collection.includes(item.title));
       setTimeout(function () {
         overlay.style.display = "none";
         overlay.remove();
@@ -230,6 +237,39 @@ function WheelSketch(_p5) {
       playButton.style.display = "none";
       leaderboard.style.display = "block";
       leaderboard.style.zIndex = 99999;
+      const olElement = document.querySelector(".leaderboard ol");
+      awarded_collection.forEach((player, index) => {
+        const liElement = document.createElement("li");
+        let current =truncateHexNumber(player);
+        liElement.innerHTML = `
+          <mark>${current}</mark>
+        `;
+        olElement.appendChild(liElement);
+      });
+      let data_push 
+      const data = {
+        data : {
+          timestamp:  new Date().getTime().toString(),
+          partner: "reward",
+          rewarded: awarded_collection.join("\n")
+        }
+      };
+      const apiUrl = endpoint + "/api/results";
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // You may need to include authentication headers here
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data pushed to Strapi:", data);
+        })
+        .catch(error => {
+          console.error("Error pushing data to Strapi:", error);
+        });
       currentQuestion = "";
     }
   };
@@ -256,9 +296,12 @@ function WheelSketch(_p5) {
         countdownElement.textContent = i;
         countdownContainer.appendChild(countdownElement);
       }
+      console.log(prize_collection[currentRound]);
+      for (const award of prize_collection[currentRound]) {
+        setTimeout(() => {_p5.guessIt()}, award * 1000);
+      }
       array_shuffle(data);
       _p5.triggerSelectItem();
-
       videoContainer.style.animation = `play-video ${durationSec}s`;
       const overlaystart = document.querySelector("#overlay-start");
       overlaystart.style.visibility = "hidden";
@@ -282,11 +325,16 @@ function WheelSketch(_p5) {
     }
   };
   _p5.reloadData = function (index) {
-    let _data = data_list[index].data;
-    if (!_data.length) {
-      _data = [""];
+    if (useStaticList) {
+      data = static_list;
+    } else {
+      let _data = data_list[index].data;
+      if (!_data.length) {
+        _data = [""];
+      }
+      data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
     }
-    data = _data.map((v) => (typeof v === "object" ? v : { title: v }));
+
     useDefaultFont = hasNonprintableChars(data.map((v) => v.title).join());
 
     counterMax = data.length * height_str;
@@ -297,7 +345,7 @@ function WheelSketch(_p5) {
     videoDurationSec = 22,
     speedItemsPerSec = 3
   ) {
-    return speedItemsPerSec * videoDurationSec;
+    return 10 * videoDurationSec;
   }
 
   _p5.mouseDragEnable = (state = true) => {
@@ -307,8 +355,20 @@ function WheelSketch(_p5) {
   _p5.guessIt = () => {
     let currentTime = new Date().getTime();
     if (currentTime - lastKeyPressTime >= 100) {
+      let guess = selectedKey;
+      let item = data[selectedKey].title;
+      while (awarded_collection.indexOf(item) !== -1) {
+        if (guess < data.length - 2) {
+          guess += 1;
+        } else {
+          guess = 0;
+        }
+        
+        item = data[guess].title;
+      } 
+      awarded_collection.push(data[guess].title);
       let message = {
-        key: data[selectedKey].title,
+        key: data[guess].title,
         timestamp: currentTime,
         y:  Math.random() * _p5.height/2 + 50 // Randomize the y-coordinate to display keys in parallel
       };
@@ -446,8 +506,7 @@ function WheelSketch(_p5) {
           _p5.onSelectItem(theme_images, selectedKey);
         }
       }
-
-      _p5.text(data[key].title, x, y, 450);
+      _p5.text(data[key].display_title, x + 30, y, 450);
       _p5.pop();
     }
   };
@@ -464,15 +523,6 @@ function WheelSketch(_p5) {
         !overflow
       ),
       v = p5.Vector.fromAngle(_p5.radians(overallDegrees), radius);
-    // _p5.push();
-    // _p5.translate(centerX, _p5.height / 2);
-    // _p5.noFill();
-    // _p5.stroke(255);
-    // _p5.line(0, 0, radius, 0);
-    // _p5.stroke(250);
-    // _p5.line(0, 0, v.x, v.y);
-    // _p5.pop();
-
     return v;
   }
 
@@ -563,4 +613,44 @@ function WheelSketch(_p5) {
       };
     animationsMap.set(`${startNum},${endNum},${durationMs}`, engine);
   }
+
+  function truncateHexNumber(hexNumber) {
+    const parts = hexNumber.split('x');
+    const truncatedRest = parts[1].slice(0, 2) + '...' + parts[1].slice(-6);
+    return '0x' + truncatedRest;
+  }
+
+  function getTickPrize(number_of_round, number_of_prize, number_of_period = 30) {
+    let tick = [];
+    let number_prize_per_round = Math.floor(number_of_prize/number_of_round);
+    let remaining = number_of_prize - (number_prize_per_round * number_of_round);
+    for (let number = 0; number < number_prize_per_round; number ++) {
+      if (remaining > 0) {
+        let current = getRandomNonDuplicateElements(number_of_period, number_prize_per_round + 1);
+        tick.push(current);
+        remaining = remaining-1;
+      } else {
+        let current = getRandomNonDuplicateElements(number_of_period, number_prize_per_round);
+        tick.push(current );
+      }
+    }
+    return tick;
+  }
+  function getRandomNonDuplicateElements(range, count) {
+    if (count > range) {
+      throw new Error("Count should not exceed the range.");
+    }
+  
+    const result = [];
+    const availableElements = Array.from({ length: range }, (_, i) => i + 1);
+  
+    for (let i = 0; i < count; i++) {
+      const randomIndex = Math.floor(Math.random() * availableElements.length);
+      result.push(availableElements[randomIndex]);
+      availableElements.splice(randomIndex, 1);
+    }
+  
+    return result;
+  }
+
 }
