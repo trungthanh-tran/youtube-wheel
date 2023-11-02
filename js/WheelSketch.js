@@ -33,7 +33,7 @@ function WheelSketch(_p5) {
     selectedKey,
     isCounterAnimation = false,
     counterPrevTickValue = 0,
-    video,
+    clockWise = true,
     scaleFactor,
     fontRegular,
     mouseDragEnable = true,
@@ -274,6 +274,7 @@ function WheelSketch(_p5) {
     }
   };
   _p5.playRound = () => {
+    clockWise =  Math.random() < 0.5;
     const  videoContainer = document.getElementById("filter-shadow");
     if (!isCounterAnimation) {
       const durationSec = 30,
@@ -478,7 +479,9 @@ function WheelSketch(_p5) {
         circleTop + diameter,
         false
       );
-
+      if (!clockWise) {
+        y = -1 * y; 
+      }
       if (x < 10) {
         continue;
       }
