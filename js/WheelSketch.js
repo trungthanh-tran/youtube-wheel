@@ -378,9 +378,9 @@ function WheelSketch(_p5) {
       } 
       awarded_collection.push(data[guess].title);
       let message = {
-        key: "Winner " + awarded_collection.length + " : " + data[guess].display_title,
+        key: "Winner " + awarded_collection.length + ":\n" + data[guess].display_title,
         timestamp: currentTime,
-        y:  Math.random() * _p5.height/2 + 50 // Randomize the y-coordinate to display keys in parallel
+        y:  Math.random() * _p5.height/2 + 100 // Randomize the y-coordinate to display keys in parallel
       };
       messages.push(message);
       lastKeyPressTime = currentTime;
@@ -462,7 +462,7 @@ function WheelSketch(_p5) {
         0,
         messageDisplayDuration,
         message.y,
-        message.y + 200
+        message.y + 50
       );
 
       // Display the message falling down with reduced opacity
