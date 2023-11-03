@@ -1,7 +1,7 @@
 function WheelSketch(_p5) {
   const radius = 203,
-    endpoint = "https://airdropbackend.spincoin.xyz",
-    //endpoint = "http://localhost:1338",
+    //endpoint = "https://airdropbackend.spincoin.xyz",
+    endpoint = "http://localhost:1338",
     diameter = radius * 2,
     itemsPerScreen = 10,
     height_str = diameter / itemsPerScreen,
@@ -42,7 +42,9 @@ function WheelSketch(_p5) {
     useDefaultFont = false,
     currentRound = 0,
     question_X = 0,
-    currentQuestion = "";
+    currentQuestion = "",
+    campaignTitle = "",
+    campaign_X = 0;
 
   _p5.setData = function (_data_list, index = 0) {
     data_list = _data_list;
@@ -84,6 +86,7 @@ function WheelSketch(_p5) {
   _p5.onMoveWheel = (delta) => {};
 
   _p5.setup = () => {
+
     counterMax = data.length * height_str;
 
     const canvas = _p5.createCanvas(800, 500);
@@ -109,6 +112,11 @@ function WheelSketch(_p5) {
       let dataLoaded = JSON.parse(y);
       let atrribute = dataLoaded.data[0].attributes;
       let dataWheel = atrribute.events;
+      campaignTitle = atrribute.description;
+      _p5.textSize(30);
+      _p5.stroke(0); // Set the stroke color (outline color)
+      _p5.strokeWeight(3); // Set the stroke weight (outline thickness)
+      campaign_X = (window.innerWidth - _p5.textWidth(campaignTitle))/2;
       useStaticList = atrribute.static_list;
 
       let roundData = []
@@ -116,7 +124,7 @@ function WheelSketch(_p5) {
         let oneRoundData = {}
         let parseID = oneRound.youtube_id.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/);
         oneRoundData.id=parseID[5];
-        oneRoundData.question = oneRound.question;
+        oneRoundData.question = "";
         oneRoundData.data = oneRound.answers;
         roundData.push(oneRoundData);
       }
@@ -158,7 +166,7 @@ function WheelSketch(_p5) {
         _p5.setData(roundData, 0);
         loadYoutubeIframe(_p5);
         loadedData = true;
-        currentQuestion = data_list[0].question;
+        currentQuestion = "";
       });
     });
     
@@ -181,7 +189,7 @@ function WheelSketch(_p5) {
     canv.style.display = "none";
     currentRound = currentRound + 1;
     if (currentRound < data_list.length ) {
-      currentQuestion = data_list[currentRound].question;
+      currentQuestion = "";
       var overlay = document.createElement("div");
       overlay.id = "overlay";
       document.body.appendChild(overlay);
@@ -203,12 +211,12 @@ function WheelSketch(_p5) {
                       <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
                   </filter>
               </defs>
-              <text x="0" y="-35vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the next round</text>
+              <text x="0" y="-35vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the round ${currentRound + 1}</text>
               <g filter="url(#goo)">
-                  <text x="0" y="15vh">3</text>
-                  <text x="0" y="15vh">2</text>
-                  <text x="0" y="15vh">1</text>
-                  <text x="0" y="15vh">GO</text>
+                  <text x="0" y="5vh">3</text>
+                  <text x="0" y="5vh">2</text>
+                  <text x="0" y="5vh">1</text>
+                  <text x="0" y="5vh">GO</text>
               </g>
           `;
   
@@ -364,12 +372,11 @@ function WheelSketch(_p5) {
         } else {
           guess = 0;
         }
-        
         item = data[guess].title;
       } 
       awarded_collection.push(data[guess].title);
       let message = {
-        key: data[guess].title,
+        key: "Winner " + awarded_collection.length + " : " + data[guess].display_title,
         timestamp: currentTime,
         y:  Math.random() * _p5.height/2 + 50 // Randomize the y-coordinate to display keys in parallel
       };
@@ -409,15 +416,25 @@ function WheelSketch(_p5) {
   };
 
   _p5.draw = () => {
+    _p5.clear();
     if (!loadedData) {
       return;
     }
-    _p5.clear();
     if (useDefaultFont) {
       _p5.textFont("Georgia");
       _p5.textAlign(_p5.LEFT, _p5.BOTTOM);
     } else {
       _p5.textFont(fontRegular);
+    }
+    if (campaignTitle) {
+      _p5.textSize(30);
+      _p5.stroke(0); // Set the stroke color (outline color)
+      _p5.strokeWeight(3); // Set the stroke weight (outline thickness)
+      _p5.fill(212, 160, 0);
+      _p5.text(campaignTitle, campaign_X, 30);
+      _p5.textSize(wheelTextSize);
+      _p5.noFill();
+      _p5.noStroke();   
     }
     let currentTime = new Date().getTime();
     // Iterate through the array of messages
@@ -439,7 +456,7 @@ function WheelSketch(_p5) {
 
       // Display the message falling down with reduced opacity
       _p5.fill(0, 255, 0, opacity);
-      _p5.textSize(50);
+      _p5.textSize(20);
       _p5.text(message.key, 50, y);
       _p5.textSize(wheelTextSize);
       // If the display duration is over, remove the message
@@ -448,6 +465,7 @@ function WheelSketch(_p5) {
         i--; // Decrement the index to account for the removed message
       }
     }
+
     animationsMap.forEach(startAnimationHandler);
     if (counterDelta > 0) {
       if (counter < counterMax) {
@@ -462,6 +480,9 @@ function WheelSketch(_p5) {
         counter = counterMax;
       }
     }
+    
+
+    /*
     if (currentQuestion) {
       _p5.textSize(25);
       _p5.text(currentQuestion, question_X, 50);
@@ -470,7 +491,8 @@ function WheelSketch(_p5) {
       if (question_X > _p5.width) {
         question_X = -_p5.textWidth(currentQuestion); // Reset to the left of the canvas
       }
-    }
+    }*/
+
     let key, i;
     for (i = -data.length - 2; i < itemsPerScreen + 1; i++) {
       let { x, y } = vect(

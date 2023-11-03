@@ -572,7 +572,7 @@ g>text:nth-child(4){-webkit-animation-delay:3s;animation-delay:3s}
 #video{width:100%;position:unset}
 #video iframe{height:auto;width:100%}
 .content{height:100vh}
-#canvas{top:10vh}
+#canvas{top:10vh;overflow: hidden;}
 #item-image{top:10vh}
 #countdown-canvas{top:0}
 .leaderboard{width:80vw}
@@ -699,3 +699,7 @@ g>text:nth-child(4){-webkit-animation-delay:3s;animation-delay:3s}
               transform: translateX(-300px);
     }
   }
+
+  .description {
+        text-align: center;
+      }
