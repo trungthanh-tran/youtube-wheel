@@ -4,6 +4,7 @@ function WheelSketch(_p5) {
     //endpoint = "http://localhost:1338",
     diameter = radius * 2,
     itemsPerScreen = 10,
+    campaignTextSize = 45,
     height_str = diameter / itemsPerScreen,
     counterInitial = 0,
     centerX = 10,
@@ -44,7 +45,8 @@ function WheelSketch(_p5) {
     question_X = 0,
     currentQuestion = "",
     campaignTitle = "",
-    campaign_X = 0;
+    campaign_X = 0,
+    linesDescription = [];
 
   _p5.setData = function (_data_list, index = 0) {
     data_list = _data_list;
@@ -113,14 +115,12 @@ function WheelSketch(_p5) {
       let atrribute = dataLoaded.data[0].attributes;
       let dataWheel = atrribute.events;
       campaignTitle = atrribute.description;
-      _p5.textSize(30);
+      _p5.textSize(campaignTextSize);
       _p5.stroke(0); // Set the stroke color (outline color)
       _p5.strokeWeight(3); // Set the stroke weight (outline thickness)
-      if (window.innerWidth < 768) {
-        campaign_X = (window.innerWidth - _p5.textWidth(campaignTitle))/2;
-      }
+      linesDescription = splitText(campaignTitle, window.innerWidth - 30, campaignTextSize);
       useStaticList = atrribute.static_list;
-
+      campaign_X = window.innerWidth - 10;
       let roundData = []
       for (const oneRound of dataWheel) {
         let oneRoundData = {}
@@ -429,11 +429,20 @@ function WheelSketch(_p5) {
       _p5.textFont(fontRegular);
     }
     if (campaignTitle) {
-      _p5.textSize(30);
-      _p5.stroke(0); // Set the stroke color (outline color)
-      _p5.strokeWeight(3); // Set the stroke weight (outline thickness)
-      _p5.fill(212, 160, 0);
-      _p5.text(campaignTitle, campaign_X, 30);
+      _p5.textSize(campaignTextSize);
+      _p5.stroke(0,0,0); // Set the stroke color (outline color)
+      _p5.strokeWeight(1); // Set the stroke weight (outline thickness)
+      _p5.fill(130, 130, 130);
+
+        // Display the lines of text
+      for (let i = 0; i < linesDescription.length; i++) {
+        if (campaign_X < 800) {
+          _p5.text(linesDescription[i], (campaign_X - _p5.textWidth(linesDescription[i]))/2, 45 + i * 45); // Adjust the Y position for line spacing
+        } else {
+          _p5.text(linesDescription[i], 10, 45 + i * 45); // Adjust the Y position for line spacing         
+        }
+      }
+      //_p5.text(campaignTitle, campaign_X, 30);
       _p5.textSize(wheelTextSize);
       _p5.noFill();
       _p5.noStroke();   
@@ -458,7 +467,7 @@ function WheelSketch(_p5) {
 
       // Display the message falling down with reduced opacity
       _p5.fill(0, 255, 0, opacity);
-      _p5.textSize(20);
+      _p5.textSize(50);
       _p5.text(message.key, 50, y);
       _p5.textSize(wheelTextSize);
       // If the display duration is over, remove the message
@@ -538,6 +547,27 @@ function WheelSketch(_p5) {
     }
   };
 
+  function splitText(text, maxWidth, size) {
+    let words = text.split(' ');
+    let lines = [];
+    let currentLine = '';
+    _p5.textSize(size);
+    for (let word of words) {
+      let testLine = currentLine === '' ? word : currentLine + ' ' + word;
+      let testLineWidth = _p5.textWidth(testLine);
+  
+      if (testLineWidth <= maxWidth) {
+        currentLine = testLine;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+  
+    lines.push(currentLine);
+  
+    return lines;
+  }
 
   function vect(current, from, to, overflow = true) {
     const offset = -3, // выравниваем центральный элемент списка вертикально по центру
