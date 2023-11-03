@@ -1,7 +1,7 @@
 function WheelSketch(_p5) {
   const radius = 203,
-    //endpoint = "https://airdropbackend.spincoin.xyz",
-    endpoint = "http://localhost:1338",
+    endpoint = "https://airdropbackend.spincoin.xyz",
+    //endpoint = "http://localhost:1338",
     diameter = radius * 2,
     itemsPerScreen = 10,
     height_str = diameter / itemsPerScreen,
@@ -116,7 +116,9 @@ function WheelSketch(_p5) {
       _p5.textSize(30);
       _p5.stroke(0); // Set the stroke color (outline color)
       _p5.strokeWeight(3); // Set the stroke weight (outline thickness)
-      campaign_X = (window.innerWidth - _p5.textWidth(campaignTitle))/2;
+      if (window.innerWidth < 768) {
+        campaign_X = (window.innerWidth - _p5.textWidth(campaignTitle))/2;
+      }
       useStaticList = atrribute.static_list;
 
       let roundData = []
