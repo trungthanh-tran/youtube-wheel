@@ -15,7 +15,7 @@ function WheelSketch(_p5) {
     };
   let data = [],
     messages = [], // Display keypress
-    messageDisplayDuration = 1000, // display time
+    messageDisplayDuration = 2000, // display time
     wheelTextSize = 20,
     lastKeyPressTime = 0,
     useStaticList = true,
