@@ -49,7 +49,7 @@ function onPlayerReady(e) {
 
 function loadVideo(videoId) {
   if (player) {
-    player.loadVideoById(videoId);
+    player.cueVideoById(videoId, 0, 30);
     player.playVideo();
   }
 }

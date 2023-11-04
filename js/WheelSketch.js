@@ -166,7 +166,7 @@ function WheelSketch(_p5) {
           static_list= lines.map(line => ({ title: line, display_title: truncateHexNumber(line) }));
         }
         _p5.setData(roundData, 0);
-        loadYoutubeIframe(_p5);
+        loadYoutubeIframe(_p5, data_list[0].id);
         loadedData = true;
         currentQuestion = "";
       });
@@ -191,6 +191,9 @@ function WheelSketch(_p5) {
     canv.style.display = "none";
     currentRound = currentRound + 1;
     if (currentRound < data_list.length ) {
+      if (player) {
+        player.cueVideoById(data_list[currentRound].id, 0, 30);
+      }
       currentQuestion = "";
       var overlay = document.createElement("div");
       overlay.id = "overlay";
@@ -294,7 +297,6 @@ function WheelSketch(_p5) {
         );
       _p5.onStartWheel(durationSec);
       if (player) {
-        player.loadVideoById(data_list[currentRound].id);
         player.playVideo();
       }
       const countdownContainer = document.getElementById("countdown-canvas");
@@ -378,7 +380,7 @@ function WheelSketch(_p5) {
       } 
       awarded_collection.push(data[guess].title);
       let message = {
-        key: "Winner " + awarded_collection.length + ":\n" + data[guess].display_title,
+        key: "Winner " + awarded_collection.length + "\n" + data[guess].display_title,
         timestamp: currentTime,
         y:  Math.random() * _p5.height/2 + 100 // Randomize the y-coordinate to display keys in parallel
       };
