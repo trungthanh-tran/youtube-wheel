@@ -2,12 +2,12 @@
 
 let player, timeStamps = [0, 30];
 let callback; 
-function loadYoutubeIframe(_callback) {
+function loadYoutubeIframe(id) {
   const tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
   let firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  callback = _callback;
+  callback = id;
 }
 
 function onYouTubeIframeAPIReady() {
@@ -32,6 +32,10 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(e) {
   var preloader = document.getElementById("preloader");
   preloader.classList.add("loaded");
+  if (player) {
+    player.cueVideoById(callback, 0, 30);
+    //player.playVideo();
+  }
   setTimeout(function() {
     // Apply the "fadeOut" effect
     preloader.style.transition = "opacity 0.5s"; // Define a transition for fading
@@ -50,7 +54,7 @@ function onPlayerReady(e) {
 function loadVideo(videoId) {
   if (player) {
     player.cueVideoById(videoId, 0, 30);
-    player.playVideo();
+    //player.playVideo();
   }
 }
 

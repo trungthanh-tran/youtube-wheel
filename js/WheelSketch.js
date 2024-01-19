@@ -166,7 +166,7 @@ function WheelSketch(_p5) {
           static_list= lines.map(line => ({ title: line, display_title: truncateHexNumber(line) }));
         }
         _p5.setData(roundData, 0);
-        loadYoutubeIframe(_p5, data_list[0].id);
+        loadYoutubeIframe(data_list[0].id);
         loadedData = true;
         currentQuestion = "";
       });
@@ -218,10 +218,10 @@ function WheelSketch(_p5) {
               </defs>
               <text x="0" y="-35vh" text-anchor="middle" font-size="40" font-family="Overpass Mono, monospace;" fill="white">Ready for the round ${currentRound + 1}</text>
               <g filter="url(#goo)">
-                  <text x="0" y="5vh">3</text>
-                  <text x="0" y="5vh">2</text>
-                  <text x="0" y="5vh">1</text>
-                  <text x="0" y="5vh">GO</text>
+                  <text x="0" y="-5vh">3</text>
+                  <text x="0" y="-5vh">2</text>
+                  <text x="0" y="-5vh">1</text>
+                  <text x="0" y="-5vh">GO</text>
               </g>
           `;
   
